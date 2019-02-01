@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0 ,maximum-scale=1.0,user-scalable=no;" />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<meta http-equiv="Content-Type" content="text/html; charset = UTF-8" />
+		
+		<link href="./lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="./lib/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+		<link href="./lib/loading/css/loading.css" rel="stylesheet">
+		<link href="./css/common.css" rel="stylesheet">
+
+		<script src="./lib/jquery-3.1.1.min.js"></script>
+		<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+		<script src="./lib/loading/js/loading.js"></script>
+		<script src="./js/common.js"></script>
+		<script src="./js/Ewin.js"></script>
+
+		<script src="./js/page/main.js"></script>
+
+		<title>四川省肿瘤医院电子票据打印一体机</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.col-content{
+				display: table-cell;
+			}
+			.row-content{
+				display: flex;
+			}
+			.div-style1{
+				width: 220px;
+				height: 220px;
+				margin-top: 65px;
+				margin-left: 530px;
+			}
+			.btn-icon-1{
+				background-size: 100%;
+				background-repeat: no-repeat;
+				background-position: center;
+				height: 60px;
+				width: 60px;
+				margin: 50px auto 15px auto;
+			}
+			.text-content{
+				height:69px;
+				font-size:30px;
+				font-family:Adobe Heiti Std R;
+				font-weight:normal;
+				color:rgba(255,255,255,1);
+				line-height:40px;
+				text-align: center;
+			}
+			.tip-modal{
+				width:683px;
+				height:54px;
+				font-size:36px;
+				font-family:MicrosoftYaHei;
+				font-weight:bold;
+				color: rgb(46, 101, 174);
+				line-height:80px;
+				margin-top: 42px;
+				margin-left: 350px;
+			}
+			.tip_btn{
+				width:150px;
+				height:50px;
+				background:rgba(66,133,255,1);
+				margin-left:57px;
+				position:absolute;
+				margin-top: -70px;
+				margin-left: 500px;
+				border-radius: 15px;
+			}
+			.tip_text{
+				width:63px;
+				height:30px;
+				font-size:25px;
+				font-family:MicrosoftYaHei;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:50px;
+				margin-left:50px;
+			}
+			.pi-title{
+				text-align: left;
+				font-size: 30px;
+				font-weight: bold;
+				font-family:MicrosoftYaHei;
+				color: #ffffff;
+				line-height: 68px;
+				margin-left: 40px;
+				float: left;
+			}
+			.modal-table{
+				margin-top:20px;
+				margin-left:30px;
+				margin-right:30px;
+				margin-bottom:20px;
+				border: solid 1px #8c8c8c;
+			}
+			.modal-table-tr{
+				font-size: 25px;
+				font-weight: 400;
+				height: 50px;
+				color: #333333;
+				border: solid 1px #ffffff;
+			}
+			.modal-table-td1{
+				width: 200px;
+				background-color: #ffffff;
+				font-weight: bold;
+				text-align: right;
+				padding-right:10px;
+			}
+			.modal-table-td2{
+				padding-left: 30px;
+				width: 400px;
+				text-align: left;
+			}
+			.confirm_btn{
+				width:150px;
+				height:50px;
+				background: rgb(213, 133, 18);
+				margin-left:57px;
+				position:absolute;
+				margin-top: 0px;
+				margin-left: 330px;
+				border-radius: 15px;
+			}
+			.confirm_text{
+				width:63px;
+				height:30px;
+				font-size:25px;
+				font-family:MicrosoftYaHei;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:50px;
+				margin-left:50px;
+			}
+		</style>
+	</head>
+	<!-- 提示刷卡模态框（Modal） -->
+	<div class="modal fade" id="showReadcardImg" tabindex="-9" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="margin-left: 240px; margin-top: 200px;">
+			<div class="modal-content" style="width: 800px; height: 600px; background-image: url(image/bg-neibu.png);">
+				<div class="mymodal-body">
+					<div class = "tip-modal">请插入您的就诊卡</div>
+					<div class = "tip-img"><image src="image/login.png" style="width: 800px;height: 500px;"></image></div>
+					<div class = "tip_btn">
+						<div class = "tip_text" onclick="logintipclose()">关闭</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--病人信息模态框-->
+	<div class="modal fade" id="patientInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="margin-left: 240px; margin-top: 200px">
+			<div class="modal-content" style="width: 800px; height: 600px;">
+				<div class="mymodal-header" style="background-color: #4286fe;height: 68px;">
+					<div class="pi-title" id="modal-title">请确认就诊卡信息</div>
+				</div>
+				<div class="mymodal-body" style="height: 520px">
+					<table class = "modal-table" cellspacing="0" style="height: 400px">
+						<tr class="modal-table-tr">
+							<td class="modal-table-td1">姓名：</td>
+							<td class="modal-table-td2" id = "m_name">王招财</td>
+						</tr>
+						<tr class="modal-table-tr">
+							<td class="modal-table-td1">卡号：</td>
+							<td class="modal-table-td2" id = "m_cardno">00000189944</td>
+						</tr>
+						<tr class="modal-table-tr">
+							<td class="modal-table-td1">性别：</td>
+							<td class="modal-table-td2" id = "m_sex">男</td>
+						</tr>
+						<tr class="modal-table-tr">
+							<td class="modal-table-td1">年龄：</td>
+							<td class="modal-table-td2" id = "m_age">1</td>
+						</tr>
+						<tr class="modal-table-tr">
+							<td class="modal-table-td1">身份证号：</td>
+							<td class="modal-table-td2" id = "m_socialno">622621201807240012</td>
+						</tr>
+						<tr style="display:none">
+							<td style="display:none"></td>
+							<td style="display:none" id = "m_patientid"></td>
+						</tr>
+					</table>
+					<div class = "confirm_btn">
+						<div class = "confirm_text" onclick="confirmpi()">确认</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<audio id='ddsound' src='./sound/insertcard.mp3'></audio>
+	<body>
+		<div class = "app-header">
+			<div class = "app-info">
+				<div class = "app-logo"></div>
+			</div>
+			<div class = "app-tips">
+				<div class = "app-banklogo"></div>
+			</div>
+		</div>
+		<div class ="app-content" style="height: 824px;">
+			<div class = "tip-title">欢迎使用电子票据自助打印系统</div>
+			<div class = "col-content">
+				<div class = "row-content">
+					<div class ="div-style1 div-color-yellow1"  onclick ="f_nav(1)">
+						<div class="btn-icon-1" style="background-image: url('./icon/ticketprint.png');"></div>
+						<div class="text-content">票据打印</div>
+					</div>
+				</div>
+				<div class = "row-content">
+					<div class = "tip-item">操作流程：</div>
+				</div>
+				<div class = "row-content">
+					<div class = "tip-content">点击“票据打印”->插入就诊卡->确认病人信息->选择日期->确认票据信息->打印纸质票据</div>
+				</div>
+				<div class = "row-content">
+					<div class = "tip-item">温馨提示：</div>
+				</div>
+				<div class = "row-content">
+					<div class = "tip-content">(1)、请按照就诊卡提示方向正确插入读卡器。<br>(2)、使用完毕后请取走您的物品。<br>(3)、如有疑问或者操作问题请咨询导医人员。</div>
+				</div>
+			</div>
+		</div>
+
+		<div class = "app-footer">
+			<div class = "time-info">
+				<div class = "date datetime" id = "t_showdate"></div>
+				<div class = "time datetime" id = "t_timeandweek"></div>
+			</div>
+			<div class = "return_tip" id ="t_countdown">
+			</div>
+		</div>
+	</body>
+</html>

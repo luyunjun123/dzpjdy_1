@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0 ,maximum-scale=1.0,user-scalable=no;" />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<meta http-equiv="Content-Type" content="text/html; charset = UTF-8" />
+		
+		<link href="./lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+		<link href="./lib/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+		<link href="./lib/flatpickr/flatpickr.css" rel="stylesheet">
+		<link href="./lib/loading/css/loading.css" rel="stylesheet">
+		<link href="./css/common.css" rel="stylesheet">
+
+		<script src="./lib/jquery-3.1.1.min.js"></script>
+		<script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+		<script src="./lib/flatpickr/flatpickr.js"></script>
+		<script src="./lib/flatpickr/flatpickr.l10n.zh.js"></script>
+		<script src="./lib/loading/js/loading.js"></script>
+		<script src="./js/common.js"></script>
+		<script src="./js/Ewin.js"></script>
+		<script src="./js/Base64.js"></script>
+
+		<script src="./js/page/pjdy.js"></script>
+
+		<title>四川省肿瘤医院电子票据打印一体机</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.frame-title{
+				height: 80px;
+				width: 1200px;
+				margin-top: 35px;
+				margin-bottom: -120px;
+				margin-left: 40px;
+				margin-right: 40px;
+				background-color: rgba(222, 222, 222, 0.85);
+			}
+			.row-content{
+				height: 86px;
+				width: 100%;
+				border-bottom: 1px solid #bfbfbf;
+				display: -webkit-box;
+			}
+			.label_font{
+				height:70px;
+				line-height: 80px;
+				width: 350px;
+				font-size:25px;
+				font-family:PingFang-SC-Medium;
+				font-weight:500;
+				color:rgba(51,51,51,1);
+				text-align: right;
+			}
+			.input{
+				height: 60px;
+				font-size: 25px;
+				font-weight: 300;
+				color: #333333;
+				margin-left: 20px;
+				margin-right: 0px;
+				margin-top: 13px;
+				width: 490px
+			}
+			.search_btn{
+				width:100px;
+				height:45px;
+				background:rgba(66,133,255,1);
+				margin-top: 20px;
+				margin-left:40px;
+				border-radius: 6px;
+			}
+			.search_text{
+				width:63px;
+				height:45px;
+				font-size:25px;
+				font-family:MicrosoftYaHei;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:45px;
+				margin-left:25px;
+			}
+			.frame-content{
+				height: 720px;
+				width: 1200px;
+				margin-top: 121px;
+				margin-bottom: 30px;
+				margin-left: 40px;
+				margin-right: 40px;
+				background-color: rgba(255,255,255,0.85);
+			}
+			.result_content{
+				width:1140px;
+				/*每行数据行高97px*/
+				height:560px;
+				background: rgb(248, 248, 248);
+				margin-left:30px;
+				margin-top: 0px;
+			}
+			.thead_font{
+				font-size: 22px;
+				font-family: MicrosoftYaHei;
+				font-weight:bold;
+			}
+			th{
+				text-align: center;
+				height: 80px;
+				background-color: #d58512;
+				color: #ffffff;
+			}
+			td{
+				text-align: center;
+				height: 60px;
+			}
+
+			.form_page{
+				height:100px;
+				width: 1200px;
+				frameborder:"1";
+				margin-top: 0px;
+			}
+			.form_pagetitle{
+				height:30px;
+				font-size:20px;
+				font-weight: 500;
+				font-family:MicrosoftYaHei;
+				margin-top:23px;
+				margin-left:40px;
+			}
+			.btnform-page{
+				position: absolute;
+				left: 485px;
+				top: 830px;
+			}
+			.btn-page{
+				width:120px;
+				height:43px;
+				background:rgba(66,133,255,1);
+				margin-left:20px;
+				display: inline-block;
+				border-radius: 6px;
+			}
+			.btn-page-text{
+				width:120px;
+				height:30px;
+				font-size:20px;
+				font-family:MicrosoftYaHei;
+				font-weight:bold;
+				color:rgba(255,255,255,1);
+				line-height:43px;
+				text-align:center;
+			}
+		</style>
+	</head>
+	<audio id='ddsound' src='./sound/popcard.mp3'></audio>
+	<body>
+		<div class = "app-header">
+			<div class = "app-info">
+				<div class = "app-logo"></div>
+			</div>
+			<div class = "app-tips">
+				<div class = "app-banklogo"></div>
+			</div>
+		</div>
+		<div class ="app-content" style="height: 824px;">
+			<div class="frame-title">
+				<div class="row-content">
+					<div class="label_font">查询该日期前7天的票据：</div>
+					<div class=""><input id="chargetime" class="input form-control" type="text" placeholder="点击此处输入日期"/></div>
+					<div id="searchbutton" class="search_btn" onclick = "search()"><div class="search_text">查询</div></div>
+				</div>
+			</div>
+			<div class="frame-content" id = "agentlist">
+				<form class = "result_content" id = "printTable">
+					<table id="tb_result" class="table table-bordered" style="background-color: #fff;margin-top: 20px;margin-bottom: 20px;">
+						<thead>
+							<tr class="thead_font"><th style="width: 200px;vertical-align: middle">业务流水号</th><th style="width: 200px;vertical-align: middle">票据名称</th><th style="width: 240px;vertical-align: middle">开票时间</th><th style="width: 150px;vertical-align: middle">总金额</th><th style="width: 150px;vertical-align: middle">备注</th><th style="vertical-align: middle">操作</th></tr>
+						</thead>
+						<tbody id="t_tbody">
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>王招财</td><td><button class="btn btn-block btn-lg" ><span class="glyphicon glyphicon-print"></span> 打印票据</button></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>李富贵</td><td><button class="btn btn-block btn-lg" ><span class="glyphicon glyphicon-print"></span> 打印票据</button></td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>邢远兮</td><td><button class="btn btn-block btn-lg" ><span class="glyphicon glyphicon-print"></span> 打印票据</button></td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>张老三</td><td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>张老三</td><td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>张老三</td><td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>张老三</td><td></td></tr>-->
+							<!--<tr class="tbody_font"><td>22112211</td><td>住院</td><td>2019-01-11 12:00:01</td><td>282.02</td><td>张老三</td><td></td></tr>-->
+						</tbody>
+					</table>
+				</form>
+				<div class = "form_page">
+					<h1 class="form_pagetitle" id="pagetitle"></h1>
+					<div class="btnform-page">
+						<div class="btn-page" onclick = "pretpage()"><div id="btn_prepage" class="btn-page-text">上一页</div></div>
+						<div class="btn-page" onclick = "nextpage()"><div id="btn_nextpage" class="btn-page-text">下一页</div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "app-footer">
+			<div class = "time-info">
+				<div class = "date datetime" id = "t_showdate"></div>
+				<div class = "time datetime" id = "t_timeandweek"></div>
+			</div>
+			<div class = "return_tip" id ="t_countdown">
+			</div>
+			<div class = "return_btn">
+				<div class = "return_text" onclick="popcard()">退卡</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
