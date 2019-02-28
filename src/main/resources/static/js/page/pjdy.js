@@ -82,18 +82,20 @@ function sMessage(msg){
         setTimeout(function(){removeloading();Close();},6000);
     }else if(result[0]=="CODE_POPCARD_FAILED"){
         Ewin.alert({ message: "退卡操作出错，错误信息：" + result[1]}).on(function (e) {});
-    }else if(result[0]=="CODE_SCAN_SUCCESS"){
-        var realPaperBillno = result[1];
-        if (realPaperBillno==paperBillno){
-            getbillinfo();
-        }else{
-            Ewin.alert({ message: "读取纸质票据号码和系统取出票据号码不一致，请联系系统维护人员"}).on(function (e) {});
-            return;
-        }
-    }else if(result[0]=="CODE_SCAN_FAILED"){
-            Ewin.alert({ message: "扫描发票条码出错，错误信息：" + result[1]}).on(function (e) {});
-            printremoveloading();
-    }else if(result[0]=="CODE_PRINTBILL_SUCCESS"){
+    }
+    // else if(result[0]=="CODE_SCAN_SUCCESS"){
+    //     var realPaperBillno = result[1];
+    //     if (realPaperBillno==paperBillno){
+    //         getbillinfo();
+    //     }else{
+    //         Ewin.alert({ message: "读取纸质票据号码和系统取出票据号码不一致，请联系系统维护人员"}).on(function (e) {});
+    //         return;
+    //     }
+    // }else if(result[0]=="CODE_SCAN_FAILED"){
+    //         Ewin.alert({ message: "扫描发票条码出错，错误信息：" + result[1]}).on(function (e) {});
+    //         printremoveloading();
+    // }
+    else if(result[0]=="CODE_PRINTBILL_SUCCESS"){
         second = 180;
         setPrintStatus();
     }else if(result[0]=="CODE_PRINTBILL_FAILED"){
@@ -162,7 +164,7 @@ function showbilllist(json) {
                             '<td>' + totalAmt + '</td>' +
                             '<td>' + billlist[i].remark + '</td>' +
                             '<td>' +
-                                '<button class="btn btn-block btn-lg" type="button" id="prnBtn-' + billlist[i].random + '" onclick=ScanPbillno("'+ billlist[i].billName +'","'+ billlist[i].billBatchCode +'","'+ billlist[i].billNo +'","'+ billlist[i].random +'","'+ billlist[i].ivcDateTime.substring(0,8) +'","'+ billlist[i].busDate.substring(0,8) +'","'+ totalAmt +'")>' +
+                                '<button class="btn btn-block btn-lg" type="button" id="prnBtn-' + billlist[i].random + '" onclick=Getpaperbillno("'+ billlist[i].billName +'","'+ billlist[i].billBatchCode +'","'+ billlist[i].billNo +'","'+ billlist[i].random +'","'+ billlist[i].ivcDateTime.substring(0,8) +'","'+ billlist[i].busDate.substring(0,8) +'","'+ totalAmt +'")>' +
                                     '<span class="glyphicon glyphicon-print"></span> 打印票据' +
                                 '</button>' +
                             '</td>' +
@@ -173,7 +175,7 @@ function showbilllist(json) {
 
 }
 
-function ScanPbillno(billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt){
+function Getpaperbillno(billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt){
     //保存参数
     pbillName = billName;
     pbillBatchCode = billBatchCode;
@@ -204,7 +206,8 @@ function getCenPaperBillNo(jsonStr){
     var json = JSON.parse(jsonStr);
     if (json.status == "S_OK"){
         paperBillno = json.data.pBillNo;
-        socket.send("SCAN");
+        //socket.send("SCAN");
+        getbillinfo();
     }else{
         Ewin.alert({ message: json.message}).on(function (e) {});
         printremoveloading();
@@ -283,6 +286,7 @@ function printBill(jsonStr,billName,billBatchCode,billNo,random,ivcDateTime,busD
     chargeListStr = (chargeListStr.substring(0,chargeListStr.length-1));
 
     var sendStr = "PRINTBILL#" +
+        base64.encode(paperBillno) + "#" +
         base64.encode(billName) + "#" +
         base64.encode(billBatchCode) + "#" +
         base64.encode(billNo) + "#" +
