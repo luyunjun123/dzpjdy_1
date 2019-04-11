@@ -63,6 +63,10 @@ function sMessage(msg){
             cardno= result[1].substring(0,result[1].indexOf("="));
         }
         getPatientInfo(cardno);
+    }else if(result[0]=="CODE_POPCARD_SUCCESS"){
+        document.getElementById("ddsound1").play();
+        loading();
+        setTimeout(function(){removeloading();socket.send("READCARD");},6000);
     }
 }
 
@@ -80,6 +84,7 @@ function getPatientInfo(cardno) {
                 removeloading();
             }else
             {
+                socket.send("POPCARD");
                 alert("Error: "+xhr.status+": "+xhr.statusText);
             }
         }
@@ -102,6 +107,7 @@ function f_nav(menuno){
 function showpatientinfo(json){
     if (json.status !="S_OK"){
         Ewin.alert({ message: json.message}).on(function (e) {});
+        socket.send("POPCARD");
         return;
     }
     

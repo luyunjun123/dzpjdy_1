@@ -169,7 +169,8 @@ function search(){
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
-                showbilllist(JSON.parse(responseTxt));
+                //showbilllist(JSON.parse(responseTxt));
+                showbilllist(responseTxt);
                 removeloading();
             }else
             {
@@ -242,8 +243,8 @@ function Getpaperbillno(billName,billBatchCode,billNo,random,ivcDateTime,busDate
     });
 }
 
-function getCenPaperBillNo(jsonStr){
-    var json = JSON.parse(jsonStr);
+function getCenPaperBillNo(json){
+    //var json = JSON.parse(jsonStr);
     if (json.status == "S_OK"){
         paperBillno = json.data.pBillNo;
         //socket.send("SCAN");
@@ -274,8 +275,8 @@ function getbillinfo() {
     });
 }
 
-function printBill(jsonStr,billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt) {
-    var json = JSON.parse(jsonStr);
+function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt) {
+    //var json = JSON.parse(jsonStr);
     var pattern = /(\d{4})(\d{2})(\d{2})/;
     var payCompany = "四川省肿瘤医院";
     var payer = json.data.payer;
@@ -414,7 +415,8 @@ function pretpage(){
             context: document.body,
             success: function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success") {
-                    showbilllist(JSON.parse(responseTxt));
+                    //showbilllist(JSON.parse(responseTxt));
+                    showbilllist(responseTxt);
                     removeloading();
                 }else
                 {
@@ -440,7 +442,8 @@ function nextpage(){
             context: document.body,
             success: function(responseTxt,statusTxt,xhr){
                 if(statusTxt=="success") {
-                    showbilllist(JSON.parse(responseTxt));
+                    //showbilllist(JSON.parse(responseTxt));
+                    showbilllist(responseTxt);
                     removeloading();
                 }else
                 {

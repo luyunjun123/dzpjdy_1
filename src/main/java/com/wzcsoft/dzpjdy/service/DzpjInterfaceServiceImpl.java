@@ -9,6 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -194,7 +195,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
     }
 
     //#########私有方法#########//
-    private Map<String,Object> callInterface(Map<String,Object> paramMap,String callMethod,String mCName){
+    private Map<String,Object> callInterface(Map<String,Object> paramMap,String callMethod,String mCName) {
         Map<String,Object> retMap = new HashMap<>();
 
         HttpHeaders headers = new HttpHeaders();
@@ -213,11 +214,21 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
         //3、解析返回值
         JSONObject rensponseJson = JSONObject.parseObject(responseText);
-        String retString = new String(Base64.decodeBase64(rensponseJson.getString("data")));
+        String retString = null;
+        try {
+            retString = new String(Base64.decodeBase64(rensponseJson.getString("data")),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         JSONObject retJson = JSONObject.parseObject(retString);
         String result = retJson.getString("result");
         String message = retJson.getString("message");
-        String realMessage = new String(Base64.decodeBase64(message));
+        String realMessage = null;
+        try {
+            realMessage = new String(Base64.decodeBase64(message),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         if (result.equals("S0000")){
             retMap.put("status","S_OK");
@@ -232,7 +243,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
         }else{
             retMap.put("status","S_FALSE");
-            retMap.put("message",realMessage);
+            retMap.put("message","未查询到待开票记录");
         }
 
         return retMap;
