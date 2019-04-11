@@ -357,6 +357,7 @@ function setPrintStatus() {
                 $("#prnBtn-" + prandom).attr('disabled',true);
                 writePrintLog();
                 printremoveloading();
+                setTicketInfo(pbillNo,paperBillno);
             }else
             {
                 alert("Error: "+xhr.status+": "+xhr.statusText);
@@ -365,6 +366,18 @@ function setPrintStatus() {
         }
     });
 
+}
+
+function setTicketInfo(ebillno,pbillno){
+    $.ajax({ url: "./hisinterf/setticketinfo",
+        async: true,
+        data:{ebillno:ebillno,pbillno:pbillno},
+        type:"GET",
+        context: document.body,
+        success: function(responseTxt,statusTxt,xhr){
+
+        }
+    });
 }
 
 function writePrintLog(){

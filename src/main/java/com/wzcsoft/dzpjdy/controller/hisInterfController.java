@@ -20,4 +20,10 @@ public class hisInterfController {
     public Object Getpainfobycard(@RequestParam(name = "cardno",required = true) String cardno){
         return hiservice.getPatientInfo(cardno);
     }
+
+    @RequestMapping(value = "setticketinfo")
+    public Object Setticketinfo(@RequestParam(name = "ebillno",required = true) String ebillno,
+                                @RequestParam(name = "pbillno",required = true) String pbillno){
+        return hiservice.setTicketinfo(ebillno,pbillno);
+    }
 }

@@ -5,4 +5,5 @@ package com.wzcsoft.dzpjdy.service;
  */
 public interface HisInterfaceService {
     Object getPatientInfo(String cardno);
+    Object setTicketinfo(String ebillno,String pbillno);
 }

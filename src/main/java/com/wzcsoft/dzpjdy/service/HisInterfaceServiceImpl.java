@@ -7,6 +7,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.springframework.beans.factory.annotation.Value;
 
 //import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ import java.util.Map;
  */
 @org.springframework.stereotype.Service
 public class HisInterfaceServiceImpl implements HisInterfaceService {
+
+    @Value("${hisinterf.operator}")
+    private String _operator;
+
     @Override
     public Object getPatientInfo(String cardno){
         Map<String,Object> retMap = new HashMap<>();
@@ -95,6 +100,47 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
         }
         return retMap;
     }
+
+    @Override
+    public Object setTicketinfo(String ebillno,String pbillno){
+        Map<String,Object> retMap = new HashMap<>();
+        Document doc = null;
+
+        StringBuilder xmlString = new StringBuilder();
+        xmlString.append("<funderService serverName='zz_switch_invoices'><value><![CDATA[<Request><ebillno>" + pbillno + "</ebillno><turn_p_opera>" + _operator + "</turn_p_opera><pbillno>" + pbillno + "</pbillno></Request>]]></value></funderService>");
+
+        //获取返回值
+        String responseXml = getResByAxis(xmlString.toString());
+
+        //解析Xml
+        if(responseXml.equals(null)){
+            retMap.put("status", "S_FALSE");
+            retMap.put("message", "调用HIS接口出错！");
+        }else {
+            try {
+                doc = DocumentHelper.parseText(responseXml);
+                Element rootElt = doc.getRootElement();
+
+                String resultCode = rootElt.elementTextTrim("ResultCode");
+                String errorMsg = rootElt.elementTextTrim("ErrorMsg");
+
+                if (resultCode.equals("0")){
+                    retMap.put("status", "S_OK");
+                    retMap.put("message", "");
+                }else{
+                    retMap.put("status", "S_FALSE");
+                    retMap.put("message", errorMsg);
+                }
+
+            } catch (DocumentException e) {
+                e.printStackTrace();
+                retMap.put("status", "S_FALSE");
+                retMap.put("message", "HIS返回信息解析出错！");
+            }
+        }
+        return retMap;
+    }
+
 
 //    私有方法
     private String getResByAxis(String xmlString){
