@@ -311,7 +311,7 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
         prpad("计量单位",4)+ "　　" +
         prpad("收费标准",10)+ "　　" +
         prpad("数量",4) + "　　" +
-        prpad("金额",5);
+        prpad("金额",10);
 
     var chargeListStr=base64.encode(titleStr) + "$";
 
@@ -322,7 +322,7 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
             prpad(chargeList[i].unit,4)+ "　　" +
             prpad(getFormattedAmt(chargeList[i].std).toString(),10)+ "　　" +
             prpad(chargeList[i].number,4) + "　　" +
-            prpad(getFormattedAmt(chargeList[i].amt).toString(),5);
+            prpad(getFormattedAmt(chargeList[i].amt).toString(),10);
 
         //alert("itemStr=" + itemStr);
         chargeListStr += base64.encode(itemStr) + "$";
