@@ -306,11 +306,14 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
 
 
     var base64 = new Base64();
-    var chargeListStr=base64.encode(prpad("收费项目名称",10) + "　　" )+
-        base64.encode(prpad("计量单位",4)+ "　　")  +
-        base64.encode(prpad("收费标准",10)+ "　　")  +
-        base64.encode(prpad("数量",4) + "　　") +
-        base64.encode(prpad("金额",5)) + "$";
+
+    var titleStr = prpad("收费项目名称",10) + "　　" +
+        prpad("计量单位",4)+ "　　" +
+        prpad("收费标准",10)+ "　　" +
+        prpad("数量",4) + "　　" +
+        prpad("金额",5);
+
+    var chargeListStr=base64.encode(titleStr) + "$";
 
     var clen = (chargeList.length > 10?10:chargeList.length);
 
@@ -321,10 +324,13 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
             prpad(chargeList[i].number,4) + "　　" +
             prpad(getFormattedAmt(chargeList[i].amt),5);
 
+        alert("itemStr=" + itemStr);
         chargeListStr += base64.encode(itemStr) + "$";
     }
 
     chargeListStr = (chargeListStr.substring(0,chargeListStr.length-1));
+    alert("chargeListStr=" + chargeListStr);
+
 
     var sendStr = "PRINTBILL#" +
         base64.encode(paperBillno) + "#" +
@@ -342,7 +348,7 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
         base64.encode(payCompany) + "#" +
         base64.encode(payee);
 
-    socket.send(sendStr);
+    //socket.send(sendStr);
 
 }
 
@@ -481,8 +487,7 @@ function getFormattedAmt(value){
     if(xsd.length==1){
         value=value.toString()+".00";
         return value;
-    }
-    if(xsd.length>1){
+    }else if(xsd.length>1){
         if(xsd[1].length<2){
             value=value.toString()+"0";
         }
