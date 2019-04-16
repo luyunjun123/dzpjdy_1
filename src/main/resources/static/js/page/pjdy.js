@@ -357,7 +357,7 @@ function setPrintStatus() {
                 $("#prnBtn-" + prandom).attr('disabled',true);
                 writePrintLog();
                 printremoveloading();
-                setTicketInfo(pbillNo,paperBillno);
+                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
             }else
             {
                 alert("Error: "+xhr.status+": "+xhr.statusText);
@@ -368,10 +368,10 @@ function setPrintStatus() {
 
 }
 
-function setTicketInfo(ebillno,pbillno){
+function setTicketInfo(ebillno,pbillno,pbillbatchcode){
     $.ajax({ url: "./hisinterf/setticketinfo",
         async: true,
-        data:{ebillno:ebillno,pbillno:pbillno},
+        data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode},
         type:"GET",
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
