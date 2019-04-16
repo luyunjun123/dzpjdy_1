@@ -320,16 +320,16 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
     for (var i = 0;i<clen;i++){
         var itemStr = prpad(chargeList[i].chargeName,10) + "　　" +
             prpad(chargeList[i].unit,4)+ "　　" +
-            prpad(getFormattedAmt(chargeList[i].std),10)+ "　　" +
+            prpad(getFormattedAmt(chargeList[i].std).toString(),10)+ "　　" +
             prpad(chargeList[i].number,4) + "　　" +
-            prpad(getFormattedAmt(chargeList[i].amt),5);
+            prpad(getFormattedAmt(chargeList[i].amt).toString(),5);
 
-        alert("itemStr=" + itemStr);
+        //alert("itemStr=" + itemStr);
         chargeListStr += base64.encode(itemStr) + "$";
     }
 
     chargeListStr = (chargeListStr.substring(0,chargeListStr.length-1));
-    alert("chargeListStr=" + chargeListStr);
+    //alert("chargeListStr=" + chargeListStr);
 
 
     var sendStr = "PRINTBILL#" +
@@ -348,8 +348,7 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
         base64.encode(payCompany) + "#" +
         base64.encode(payee);
 
-    //socket.send(sendStr);
-
+    socket.send(sendStr);
 }
 
 function setPrintStatus() {
