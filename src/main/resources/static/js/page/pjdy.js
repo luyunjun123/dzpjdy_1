@@ -8,7 +8,7 @@ var pageCount=0;
 var chargetime;
 var second = 180;
 
-var pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt,pvalidpbillno;
+var pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt,pBusFlag;
 var paperBillno;
 
 $(function(){
@@ -285,18 +285,24 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
 
     if ("01"==json.data.busType){
         busType = "住院";
+        pBusFlag = 3;
     }else if("02"==json.data.busType){
         busType = "门诊";
+        pBusFlag = 1;
     }else if("03"==json.data.busType){
         busType = "急诊";
+        pBusFlag = 1;
     }else if("04"==json.data.busType){
         busType = "体检中心";
     }else if("05"==json.data.busType){
         busType = "门特";
+        pBusFlag = 1;
     }else if("06"==json.data.busType){
         busType = "挂号";
+        pBusFlag = 2
     }else{
         busType = json.data.busType;
+        pBusFlag = 1;
     }
 
     var payee = json.data.payee;
@@ -376,7 +382,7 @@ function setPrintStatus() {
 function setTicketInfo(ebillno,pbillno,pbillbatchcode){
     $.ajax({ url: "./hisinterf/setticketinfo",
         async: true,
-        data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode},
+        data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
         type:"GET",
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){

@@ -70,7 +70,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
         dataMap.put("busBgnDate",startDateStr);
         dataMap.put("busEndDate",endDateStr);
-        dataMap.put("busType","02");
+//        dataMap.put("busType","02");
         dataMap.put("cardType","3101");
         dataMap.put("cardNo",cardNo);
         dataMap.put("patientId",patientId);

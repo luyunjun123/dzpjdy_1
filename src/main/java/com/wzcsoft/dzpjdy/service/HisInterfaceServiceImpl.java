@@ -102,12 +102,12 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
     }
 
     @Override
-    public Object setTicketinfo(String ebillno,String pbillno,String pbillbatchcode){
+    public Object setTicketinfo(String ebillno,String pbillno,String pbillbatchcode,String pFlag){
         Map<String,Object> retMap = new HashMap<>();
         Document doc = null;
 
         StringBuilder xmlString = new StringBuilder();
-        xmlString.append("<funderService serverName='zz_switch_invoices'><value><![CDATA[<Request><ebillno>" + ebillno + "</ebillno><ebillbatchcode>" + pbillbatchcode + "</ebillbatchcode><turn_p_opera>" + _operator + "</turn_p_opera><pbillno>" + pbillno + "</pbillno></Request>]]></value></funderService>");
+        xmlString.append("<funderService serverName='zz_switch_invoices'><value><![CDATA[<Request><ebillno>" + ebillno + "</ebillno><ebillbatchcode>" + pbillbatchcode + "</ebillbatchcode><turn_p_opera>" + _operator + "</turn_p_opera><pbillno>" + pbillno + "</pbillno><flag>" + pFlag + "</flag></Request>]]></value></funderService>");
 
         //获取返回值
         String responseXml = getResByAxis(xmlString.toString());

@@ -24,7 +24,8 @@ public class hisInterfController {
     @RequestMapping(value = "setticketinfo")
     public Object Setticketinfo(@RequestParam(name = "ebillno",required = true) String ebillno,
                                 @RequestParam(name = "pbillno",required = true) String pbillno,
-                                @RequestParam(name = "pbillbatchcode",required = true) String pbillbatchcode){
-        return hiservice.setTicketinfo(ebillno,pbillno,pbillbatchcode);
+                                @RequestParam(name = "pbillbatchcode",required = true) String pbillbatchcode,
+                                @RequestParam(name = "pflag",required = true) String pflag){
+        return hiservice.setTicketinfo(ebillno,pbillno,pbillbatchcode,pflag);
     }
 }
