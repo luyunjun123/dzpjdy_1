@@ -60,7 +60,7 @@ function sMessage(msg){
     if (result[0]=="CODE_READCARD_SUCCESS"){
         var cardno = result[1];
         if (result[1].indexOf("=")>-1){
-            cardno= result[1].substring(result[1].indexOf(";"),result[1].indexOf("="));
+            cardno= result[1].substring(result[1].indexOf(";")+1,result[1].indexOf("="));
         }
         getPatientInfo(cardno);
     }else if(result[0]=="CODE_POPCARD_SUCCESS"){
