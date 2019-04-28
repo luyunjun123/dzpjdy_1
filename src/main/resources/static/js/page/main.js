@@ -59,8 +59,8 @@ function sMessage(msg){
     var result = msg.data.split("#");
     if (result[0]=="CODE_READCARD_SUCCESS"){
         var cardno = result[1];
-        if (result[1].indexOf("=")){
-            cardno= result[1].substring(0,result[1].indexOf("="));
+        if (result[1].indexOf("=")>-1){
+            cardno= result[1].substring(result[1].indexOf(";"),result[1].indexOf("="));
         }
         getPatientInfo(cardno);
     }else if(result[0]=="CODE_POPCARD_SUCCESS"){
@@ -72,23 +72,30 @@ function sMessage(msg){
 
 //接口-获取病人信息
 function getPatientInfo(cardno) {
-    loading();
-    $.ajax({ url: "./hisinterf/getpainfobycard",
-        async: true,
-        data:{cardno:cardno},
-        type:"GET",
-        context: document.body,
-        success: function(responseTxt,statusTxt,xhr){
-            if(statusTxt=="success") {
-                showpatientinfo(responseTxt);
-                removeloading();
-            }else
-            {
-                socket.send("POPCARD");
-                alert("Error: "+xhr.status+": "+xhr.statusText);
-            }
-        }
-    });
+    //2019-04-28
+    var st = window.localStorage;
+    st.setItem("cardno",cardno);
+    window.location.replace("pjdy.html");
+    return;
+
+    //
+    // loading();
+    // $.ajax({ url: "./hisinterf/getpainfobycard",
+    //     async: true,
+    //     data:{cardno:cardno},
+    //     type:"GET",
+    //     context: document.body,
+    //     success: function(responseTxt,statusTxt,xhr){
+    //         if(statusTxt=="success") {
+    //             showpatientinfo(responseTxt);
+    //             removeloading();
+    //         }else
+    //         {
+    //             socket.send("POPCARD");
+    //             alert("Error: "+xhr.status+": "+xhr.statusText);
+    //         }
+    //     }
+    // });
 }
 
 //页面控制方法

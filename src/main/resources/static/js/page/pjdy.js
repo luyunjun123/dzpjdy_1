@@ -158,6 +158,7 @@ function search(){
         return;
     }
     var patientid =window.localStorage.getItem("patientid");
+    patientid = 0;
     var cardno =window.localStorage.getItem("cardno");
     // var patientid ="999999999";
     // var cardno="0123456789";
@@ -380,21 +381,23 @@ function setPrintStatus() {
 }
 
 function setTicketInfo(ebillno,pbillno,pbillbatchcode){
-    $.ajax({ url: "./hisinterf/setticketinfo",
-        async: true,
-        data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
-        type:"GET",
-        context: document.body,
-        success: function(responseTxt,statusTxt,xhr){
-
-        }
-    });
+    // $.ajax({ url: "./hisinterf/setticketinfo",
+    //     async: true,
+    //     data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
+    //     type:"GET",
+    //     context: document.body,
+    //     success: function(responseTxt,statusTxt,xhr){
+    //
+    //     }
+    // });
 }
 
 function writePrintLog(){
     var cardno = window.localStorage.getItem("cardno");
     var patientname = window.localStorage.getItem("patientname");
     var socialno = window.localStorage.getItem("socialno");
+    patientname = cardno
+    socialno = cardno
     // var cardno = "00121021212";
     // var patientname = "王招财";
     // var socialno = "622621197904110012";
@@ -458,6 +461,7 @@ function nextpage(){
         pageNo++;
         var patientid =window.localStorage.getItem("patientid");
         var cardno =window.localStorage.getItem("cardno");
+        patientid = 0;
         loading();
         $.ajax({ url: "./dzpjinterf/getbilllist",
             async: true,
