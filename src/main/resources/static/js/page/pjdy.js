@@ -279,7 +279,7 @@ function getbillinfo() {
 function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt) {
     //var json = JSON.parse(jsonStr);
     var pattern = /(\d{4})(\d{2})(\d{2})/;
-    var payCompany = "四川省肿瘤医院";
+    var payCompany = "四川省人民医院";
     var payer = json.data.payer;
     var busNo=json.data.busNo;
     var busType;
@@ -326,7 +326,7 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
 
     for (var i = 0;i<clen;i++){
         var itemStr = prpad(chargeList[i].chargeName,10) + "　　" +
-            prpad(chargeList[i].unit,4)+ "　　" +
+            prpad(chargeList[i].unit==null?"元":chargeList[i].unit,4)+ "　　" +
             prpad(getFormattedAmt(chargeList[i].std).toString(),10)+ "　　" +
             prpad(chargeList[i].number,4) + "　　" +
             prpad(getFormattedAmt(chargeList[i].amt).toString(),10);
