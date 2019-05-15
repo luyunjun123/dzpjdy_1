@@ -261,12 +261,13 @@ function getCenPaperBillNo(json){
 function getbillinfo() {
     $.ajax({ url: "./dzpjinterf/getbillinfo",
         async: true,
-        data:{billbatchcode:pbillBatchCode,billno:pbillNo,random:prandom},
+        data:{billname:pbillName,billbatchcode:pbillBatchCode,billno:pbillNo,payer:"",random:prandom,ivcdatetime:pivcDateTime},
         type:"GET",
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
-                printBill(responseTxt,pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt);
+                // printBill(responseTxt,pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt);
+                printBillPdf(responseTxt);
             }else
             {
                 alert("Error: "+xhr.status+": "+xhr.statusText);
@@ -274,6 +275,15 @@ function getbillinfo() {
             }
         }
     });
+}
+
+function printBillPdf(json){
+    var pdffile = json.pdffile;
+    var sendStr = "PRINTBILL#" +
+        base64.encode(paperBillno) + "#" +
+        base64.encode(pdffile);
+
+    socket.send(sendStr);
 }
 
 function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt) {
