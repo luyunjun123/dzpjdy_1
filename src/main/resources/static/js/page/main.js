@@ -15,7 +15,6 @@ $(function(){
     $("#t_showdate").html(vdate.getFullYear() + '年' + vmonth + '月' + vdate.getDate() +'日');
     $("#t_timeandweek").html( fillZero(vdate.getHours(),2) + ':' + fillZero(vdate.getMinutes(),2) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+week);
 
-
     Connect();
 
     function showTime()
@@ -60,6 +59,7 @@ function sMessage(msg){
     if (result[0]=="CODE_READCARD_SUCCESS"){
         var cardno = result[1];
         if (result[1].indexOf("=")>-1){
+            //cardno= result[1].substring(result[1].indexOf("0")+1,result[1].indexOf("="));
             cardno= result[1].substring(0,result[1].indexOf("="));
         }
         getPatientInfo(cardno);
