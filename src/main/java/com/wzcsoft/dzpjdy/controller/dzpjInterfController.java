@@ -84,10 +84,13 @@ public class dzpjInterfController {
     }
 
     @RequestMapping(value = "getbillinfo")
-    public  Object Getbillinfo(@RequestParam(name = "billbatchcode",required = true) String billbatchcode,
+    public  Object Getbillinfo(@RequestParam(name = "billname",required = true) String billname,
+                               @RequestParam(name = "billbatchcode",required = true) String billbatchcode,
                                @RequestParam(name = "billno",required = true) String billno,
-                               @RequestParam(name = "random",required = true) String random){
-        return diservice.getBillInfo(billbatchcode,billno,random);
+                               @RequestParam(name = "payer",required = true) String payer,
+                               @RequestParam(name = "random",required = true) String random,
+                               @RequestParam(name = "ivcdatetime",required = true) String ivcdatetime){
+        return diservice.getBillInfo(billname,billbatchcode,billno,payer,random,ivcdatetime);
 //        String v ="{\n" +
 //                "    \"data\": {\n" +
 //                "        \"chargeDetail\": [\n" +

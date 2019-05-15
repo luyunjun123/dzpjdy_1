@@ -2,6 +2,7 @@ package com.wzcsoft.dzpjdy.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wzcsoft.dzpjdy.util.PdfUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +38,15 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
     @Value("${bossinterf.machinename}")
     private String _machinename;
+
+    @Value("${pdf.template.fullname}")
+    private String _pdf_template_fullname;
+
+    @Value("${pdf.file.directory}")
+    private String _pdf_file_directory;
+
+    @Value("${pdf.field.paycompany}")
+    private String _pdf_field_paycompany;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -92,7 +102,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
     }
 
     @Override
-    public Object getBillInfo(String billBatchCode,String billNo,String random){
+    public Object getBillInfo(String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime){
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 
         //1、处理参数
@@ -114,7 +124,14 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
         paramMap.put("sign", MD5(signOrigin1).toUpperCase());
 
         //2、调用接口
-        return callInterface(paramMap,"getBillDetail","获取票据明细");
+        Map<String,Object> retMap = callInterface(paramMap,"getBillDetail","获取票据明细");
+
+        if(retMap.containsKey("data")){
+            JSONObject dataJson = (JSONObject)(retMap.get("data"));
+            String pdffile = PdfUtil.writeFaPiaoPdf(dataJson,_pdf_template_fullname,_pdf_file_directory, billName, billBatchCode, billNo, payer, random, ivcDateTime,_pdf_field_paycompany);
+            retMap.put("pdffile",pdffile);
+        }
+        return retMap;
     }
 
     @Override
@@ -236,8 +253,9 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
             try{
                 retMap.put("data",JSONObject.parseObject(realMessage));
+
             }catch (Exception ex){
-                retMap.put("data",realMessage);
+                //retMap.put("data",realMessage);
             }
 
 
@@ -248,6 +266,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
         return retMap;
     }
+
 
     private String mapToBase64(Map<String,Object> map){
         String Str = JSON.toJSONString(map);
