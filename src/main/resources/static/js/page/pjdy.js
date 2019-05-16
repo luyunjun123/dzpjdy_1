@@ -279,6 +279,7 @@ function getbillinfo() {
 
 function printBillPdf(json){
     var pdffile = json.pdffile;
+    var base64 = new Base64();
     var sendStr = "PRINTBILL#" +
         base64.encode(paperBillno) + "#" +
         base64.encode(pdffile);
