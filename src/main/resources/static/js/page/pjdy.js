@@ -279,6 +279,7 @@ function getbillinfo() {
 
 function printBillPdf(json){
     var pdffile = json.pdffile;
+    var base64 = new Base64();
     var sendStr = "PRINTBILL#" +
         base64.encode(paperBillno) + "#" +
         base64.encode(pdffile);
@@ -335,8 +336,9 @@ function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate
     var clen = (chargeList.length > 10?10:chargeList.length);
 
     for (var i = 0;i<clen;i++){
+        var unitStr = (chargeList[i].unit==null||chargeList[i].unit=="null"||chargeList[i].unit=="")?"元":chargeList[i].unit;
         var itemStr = prpad(chargeList[i].chargeName,10) + "　　" +
-            prpad(chargeList[i].unit==null?"元":chargeList[i].unit,4)+ "　　" +
+            prpad(unitStr,4)+ "　　" +
             prpad(getFormattedAmt(chargeList[i].std).toString(),10)+ "　　" +
             prpad(chargeList[i].number,4) + "　　" +
             prpad(getFormattedAmt(chargeList[i].amt).toString(),10);
@@ -515,6 +517,7 @@ function getFormattedAmt(value){
 }
 
 function prpad(str,len) {
+    if (str == null) {return prpad("  ",len)}
     var retStr = "";
     var bytesCount = 0;
     for (var i = 0; i < str.length; i++)
