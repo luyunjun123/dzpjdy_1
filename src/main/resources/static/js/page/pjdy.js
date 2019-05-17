@@ -393,15 +393,15 @@ function setPrintStatus() {
 }
 
 function setTicketInfo(ebillno,pbillno,pbillbatchcode){
-    // $.ajax({ url: "./hisinterf/setticketinfo",
-    //     async: true,
-    //     data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
-    //     type:"GET",
-    //     context: document.body,
-    //     success: function(responseTxt,statusTxt,xhr){
-    //
-    //     }
-    // });
+    $.ajax({ url: "./hisinterf/setticketinfo",
+        async: true,
+        data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
+        type:"GET",
+        context: document.body,
+        success: function(responseTxt,statusTxt,xhr){
+
+        }
+    });
 }
 
 function writePrintLog(){
