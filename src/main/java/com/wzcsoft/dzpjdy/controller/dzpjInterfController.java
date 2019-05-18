@@ -244,4 +244,9 @@ public class dzpjInterfController {
 //        return JSON.parse(v);
     }
 
+    @RequestMapping(value = "getvalidbillno")
+    public  Object getvalidbillno(){
+        return diservice.getValidBillNo();
+    }
+
 }

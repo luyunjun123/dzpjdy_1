@@ -329,6 +329,7 @@ function setPrintStatus() {
             if(statusTxt=="success") {
                 $("#prnBtn-" + prandom).attr('disabled',true);
                 setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
+                savePaperBillno(paperBillno);
                 writePrintLog();
                 printremoveloading();
             }else
@@ -348,7 +349,23 @@ function setTicketInfo(ebillno,pbillno,pbillbatchcode){
         type:"GET",
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
+            if(responseTxt.status=="S_FALSE") {
+                alert(responseTxt.message);
+            }
+        }
+    });
+}
 
+function savePaperBillno(paperBillno) {
+    $.ajax({ url: "./dzpjdy/savepaperbillno",
+        async: true,
+        data:{pbillno:pbillno},
+        type:"GET",
+        context: document.body,
+        success: function(responseTxt,statusTxt,xhr){
+            if(statusTxt!="success") {
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+            }
         }
     });
 }

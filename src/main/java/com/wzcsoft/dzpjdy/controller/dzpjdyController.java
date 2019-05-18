@@ -3,6 +3,7 @@ package com.wzcsoft.dzpjdy.controller;
 import com.wzcsoft.dzpjdy.service.DzpjdyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -17,5 +18,10 @@ public class dzpjdyController {
     @RequestMapping(value = "pageinit")
     public Object Pageinit(){
         return ds.pageInit();
+    }
+
+    @RequestMapping(value = "savepaperbillno")
+    public Object Savepaperbillno(@RequestParam(name = "pbillno",required = true) String pBillno){
+        return ds.savePbillNo(pBillno);
     }
 }

@@ -5,4 +5,5 @@ package com.wzcsoft.dzpjdy.service;
  */
 public interface DzpjdyService {
     Object pageInit();
+    Object savePbillNo(String pbillno);
 }

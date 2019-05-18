@@ -211,6 +211,23 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
         return callInterface(paramMap,"turnPaper","换开纸质票据");
     }
 
+    @Override
+    public Object getValidBillNo(){
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        Map<String,Object> paramMap = new HashMap<>();
+        Map<String,Object> dataMap = new HashMap<>();
+
+        dataMap.put("placeCode",_placecode);
+        String data = mapToBase64(dataMap);
+
+        paramMap.put("appid",_appid);
+        paramMap.put("data",data);
+        paramMap.put("noise",uuid);
+        paramMap.put("version","1.0");
+
+        return callInterface(paramMap,"getValidBillNo","获取纸质/电子票据有效票据号段接口");
+    }
+
     //#########私有方法#########//
     private Map<String,Object> callInterface(Map<String,Object> paramMap,String callMethod,String mCName) {
         Map<String,Object> retMap = new HashMap<>();
