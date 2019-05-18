@@ -30,7 +30,23 @@ $(function(){
 
 //界面初始化
 function pageInit(){
-
+    $.ajax({ url: "./dzpjdy/pageinit",
+        async: true,
+        type:"GET",
+        context: document.body,
+        success: function(responseTxt,statusTxt,xhr){
+            if(responseTxt.status=="S_OK") {
+                $("#sn").html(responseTxt.sn);
+                $("#curbillno").html(responseTxt.curbillno);
+                $("#surplus").html(responseTxt.surplus);
+                var ptitle = responseTxt.pagetile
+                $(document).attr("title",ptitle);
+            }else
+            {
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+            }
+        }
+    });
 }
 
 // 读卡器控制方法

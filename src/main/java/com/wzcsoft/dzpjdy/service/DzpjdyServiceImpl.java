@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +31,9 @@ public class DzpjdyServiceImpl implements DzpjdyService{
     @Override
     @Transactional(rollbackFor = Exception.class,propagation = Propagation.REQUIRED)
     public Object pageInit(){
-        String billBgnNo;
-        String billEndNo;
+        String billBgnNo="0";
+        String billEndNo="0";
+        long surplus = 0;
         Map<String,Object> retMap = new HashMap<>();
         Curentbillno curbill = cbm.selectByPrimaryKey(1);
         String curbillno = curbill.getCurpbillno();
@@ -41,7 +43,7 @@ public class DzpjdyServiceImpl implements DzpjdyService{
         String message = json.getString("message");
         if(status.equals("S_OK")){
             JSONObject data = json.getJSONObject("data");
-            int count = data.getInteger("count");
+            long count = data.getLong("count");
             JSONArray billNoList = data.getJSONArray("billNoList");
 
             if (billNoList.size()>0){
@@ -49,7 +51,21 @@ public class DzpjdyServiceImpl implements DzpjdyService{
                 billEndNo = billNoList.getJSONObject(0).getString("billEndNo");
             }
 
+            if (curbillno.equals("0")||Long.parseLong(curbillno)<Long.parseLong(billBgnNo)||Long.parseLong(curbillno)>Long.parseLong(billEndNo)){
+                curbillno = billBgnNo;
+                surplus = count;
+            }else {
+                NumberFormat nf = NumberFormat.getInstance();
+                nf.setGroupingUsed(false);
+                nf.setMaximumIntegerDigits(curbillno.length());
+                nf.setMinimumIntegerDigits(curbillno.length());
+                curbillno = nf.format(Long.parseLong(curbillno) + 1);
+                surplus = count - (Long.parseLong(curbillno) - Long.parseLong(billBgnNo));
+            }
 
+            retMap.put("sn",billBgnNo + " - " + billEndNo);
+            retMap.put("curbillno",curbillno);
+            retMap.put("surplus",surplus);
             retMap.put("pagetile",_pagetitle);
             retMap.put("status","S_OK");
             retMap.put("message",message);
@@ -57,8 +73,6 @@ public class DzpjdyServiceImpl implements DzpjdyService{
             retMap.put("status","S_FALSE");
             retMap.put("message",message);
         }
-
-
 
         return retMap;
     }
