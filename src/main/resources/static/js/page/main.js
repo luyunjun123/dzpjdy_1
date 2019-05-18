@@ -24,7 +24,14 @@ $(function(){
         $("#t_timeandweek").html( fillZero(vdate.getHours(),2) + ':' + fillZero(vdate.getMinutes(),2) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+week);
 
     }
+
+    pageInit();
 })
+
+//界面初始化
+function pageInit(){
+
+}
 
 // 读卡器控制方法
 function Connect(){

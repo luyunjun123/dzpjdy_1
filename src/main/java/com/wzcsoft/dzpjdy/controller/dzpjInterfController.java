@@ -1,5 +1,6 @@
 package com.wzcsoft.dzpjdy.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.wzcsoft.dzpjdy.service.DzpjInterfaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,7 +81,7 @@ public class dzpjInterfController {
 //                "    \"message\": \"获取打印列表成功\",\n" +
 //                "    \"status\": \"S_OK\"\n" +
 //                "}";
-//        return v;
+//        return JSON.parse(v);
     }
 
     @RequestMapping(value = "getbillinfo")
@@ -207,7 +208,7 @@ public class dzpjInterfController {
 //                "    \"message\": \"获取票据明细成功\",\n" +
 //                "    \"status\": \"S_OK\"\n" +
 //                "}";
-//        return v;
+//        return JSON.parse(v);
     }
 
     @RequestMapping(value = "getvalidbillbatchcode")
@@ -226,7 +227,7 @@ public class dzpjInterfController {
 //                "    \"message\": \"获取当前纸质票据可用号码成功\",\n" +
 //                "    \"status\": \"S_OK\"\n" +
 //                "}\n";
-//        return v;
+//        return JSON.parse(v);
     }
 
     @RequestMapping(value = "turnpaper")
@@ -240,6 +241,7 @@ public class dzpjInterfController {
 //                "    \"message\": \"换开纸质票据成功\",\n" +
 //                "    \"status\": \"S_OK\"\n" +
 //                "}";
-//        return v;
+//        return JSON.parse(v);
     }
+
 }

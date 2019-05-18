@@ -81,7 +81,8 @@
 
         </javaClientGenerator>
 
-        <table tableName="printlog" schema="main" domainObjectName="Printlog"></table>
+        <!--<table tableName="printlog" schema="main" domainObjectName="Printlog"></table>-->
+        <table tableName="curentbillno" schema="main" domainObjectName="Curentbillno"></table>
         <!--<table tableName="sys_operlog" schema="bmplat" domainObjectName="Sysoperlog"></table>-->
     </context>
 </generatorConfiguration>

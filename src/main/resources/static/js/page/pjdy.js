@@ -83,18 +83,6 @@ function sMessage(msg){
     }else if(result[0]=="CODE_POPCARD_FAILED"){
         Ewin.alert({ message: "退卡操作出错，错误信息：" + result[1]}).on(function (e) {});
     }
-    // else if(result[0]=="CODE_SCAN_SUCCESS"){
-    //     var realPaperBillno = result[1];
-    //     if (realPaperBillno==paperBillno){
-    //         getbillinfo();
-    //     }else{
-    //         Ewin.alert({ message: "读取纸质票据号码和系统取出票据号码不一致，请联系系统维护人员"}).on(function (e) {});
-    //         return;
-    //     }
-    // }else if(result[0]=="CODE_SCAN_FAILED"){
-    //         Ewin.alert({ message: "扫描发票条码出错，错误信息：" + result[1]}).on(function (e) {});
-    //         printremoveloading();
-    // }
     else if(result[0]=="CODE_PRINTBILL_SUCCESS"){
         second = 180;
         setPrintStatus();
@@ -110,45 +98,6 @@ function popcard() {
 }
 
 function search(){
-    //
-    // var base64 = new Base64();
-    // var chargeListStr=base64.encode(prpad("收费项目名称",10) + "　　" )+
-    //     base64.encode(prpad("计量单位",4)+ "　　")  +
-    //     base64.encode(prpad("收费标准",10)+ "　　")  +
-    //     base64.encode(prpad("数量",4) + "　　") +
-    //     base64.encode(prpad("金额",5)) + "$";
-    //
-    // var clen = 2;
-    //
-    // for (var i = 0;i<2;i++){
-    //     var itemStr = prpad("治疗费",10) + "　　" +
-    //         prpad("元",4)+ "　　" +
-    //         prpad(getFormattedAmt("100"),10)+ "　　" +
-    //         prpad("1",4) + "　　" +
-    //         prpad(getFormattedAmt("100"),5);
-    //
-    //     chargeListStr += base64.encode(itemStr) + "$";
-    // }
-    //
-    // chargeListStr = (chargeListStr.substring(0,chargeListStr.length-1));
-    //
-    // var sendStr = "PRINTBILL#" +
-    //     base64.encode("0000094015") + "#" +
-    //     base64.encode("四川省医疗卫生单位门诊结算票据（电子）") + "#" +
-    //     base64.encode("51060119") + "#" +
-    //     base64.encode("0000012197") + "#" +
-    //     base64.encode("王招财") + "#" +
-    //     base64.encode("3c23a3") + "#" +
-    //     base64.encode("2019年3月1日") + "#" +
-    //     base64.encode("业务流水号：" + "20190117000002") + "#" +
-    //     base64.encode("业务标识：" + "住院") + "#" +
-    //     base64.encode("业务发生时间：" + " 2019年3月1日") + "#" +
-    //     chargeListStr + "#" +
-    //     base64.encode("总金额：" + "200.00") + "#" +
-    //     base64.encode("四川省肿瘤医院") + "#" +
-    //     base64.encode("收款人");
-    //
-    // alert(sendStr);
 
     second = 180;
     chargetime = $("#chargetime").val();
@@ -379,9 +328,9 @@ function setPrintStatus() {
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
                 $("#prnBtn-" + prandom).attr('disabled',true);
+                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
                 writePrintLog();
                 printremoveloading();
-                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
             }else
             {
                 alert("Error: "+xhr.status+": "+xhr.statusText);
