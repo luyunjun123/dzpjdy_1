@@ -49,6 +49,7 @@ public class DzpjdyServiceImpl implements DzpjdyService{
             if (billNoList.size()>0){
                 billBgnNo = billNoList.getJSONObject(0).getString("billBgnNo");
                 billEndNo = billNoList.getJSONObject(0).getString("billEndNo");
+                count = Long.parseLong(billEndNo) - Long.parseLong(billBgnNo) + 1;
             }
 
             if (curbillno.equals("0")||Long.parseLong(curbillno)<Long.parseLong(billBgnNo)||Long.parseLong(curbillno)>Long.parseLong(billEndNo)){
