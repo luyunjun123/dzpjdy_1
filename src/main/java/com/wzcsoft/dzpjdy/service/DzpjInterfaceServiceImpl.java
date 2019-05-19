@@ -211,6 +211,39 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
         return callInterface(paramMap,"turnPaper","换开纸质票据");
     }
 
+    @Override
+    public Object getValidBillNo(){
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        Map<String,Object> paramMap = new HashMap<>();
+        Map<String,Object> dataMap = new HashMap<>();
+
+        dataMap.put("placeCode",_placecode);
+        String data = mapToBase64(dataMap);
+
+        paramMap.put("appid",_appid);
+        paramMap.put("data",data);
+        paramMap.put("noise",uuid);
+        paramMap.put("version","1.0");
+
+//        String v = "{\n" +
+//                "\t\"status\": \"S_OK\",\n" +
+//                "\t\"message\": \"\",\n" +
+//                "\t\"data\": {\n" +
+//                "\"count\": \"1000\",\n" +
+//                "\"billNoList\": [{\n" +
+//                "\"billCode\": \"40001\",\n" +
+//                "\"billBatchCode\": \"40001\",\n" +
+//                "\t\t\t\"billBgnNo\": \"00001091\",\n" +
+//                "\t\t\t\"billEndNo\": \"00002091\"\n" +
+//                "}]\n" +
+//                "\t}\n" +
+//                "}\n";
+//
+//        return JSONObject.parse(v);
+
+        return callInterface(paramMap,"getValidBillNo","获取纸质/电子票据有效票据号段接口");
+    }
+
     //#########私有方法#########//
     private Map<String,Object> callInterface(Map<String,Object> paramMap,String callMethod,String mCName) {
         Map<String,Object> retMap = new HashMap<>();

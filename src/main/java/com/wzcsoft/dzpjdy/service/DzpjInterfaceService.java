@@ -9,4 +9,5 @@ public interface DzpjInterfaceService {
     Object getValidBillBatchCode();
     Object getPaperBillNo(String pBillBatchCode);
     Object turnPaper(String billBatchCode,String billNo,String pBillBatchCode,String pBillNo);
+    Object getValidBillNo();
 }
