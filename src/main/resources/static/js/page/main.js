@@ -7,9 +7,9 @@ var socket;
 $(function(){
     var timer=setInterval (showTime, 1000);
     var vdate= new Date();
-    var vmonth = vdate.getMonth() +1;
+    var vmonth =  ("0" + (vdate.getMonth() + 1)).slice(-2);
     var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-    var myddy=vdate.getDay();
+    var myddy=("0" + vdate.getDate()).slice(-2);
     var week=weekday[myddy];
 
     $("#t_showdate").html(vdate.getFullYear() + '年' + vmonth + '月' + vdate.getDate() +'日');
@@ -95,30 +95,30 @@ function sMessage(msg){
 
 //接口-获取病人信息
 function getPatientInfo(cardno) {
-    // //2019-04-28
-    // var st = window.localStorage;
-    // st.setItem("cardno",cardno);
-    // window.location.replace("pjdy.html");
-    // return;
+    //2019-04-28
+    var st = window.localStorage;
+    st.setItem("cardno",cardno);
+    window.location.replace("pjdy.html");
+    return;
 
-
-    loading();
-    $.ajax({ url: "./hisinterf/getpainfobycard",
-        async: true,
-        data:{cardno:cardno},
-        type:"GET",
-        context: document.body,
-        success: function(responseTxt,statusTxt,xhr){
-            if(statusTxt=="success") {
-                showpatientinfo(responseTxt);
-                removeloading();
-            }else
-            {
-                socket.send("POPCARD");
-                alert("Error: "+xhr.status+": "+xhr.statusText);
-            }
-        }
-    });
+    //
+    // loading();
+    // $.ajax({ url: "./hisinterf/getpainfobycard",
+    //     async: true,
+    //     data:{cardno:cardno},
+    //     type:"GET",
+    //     context: document.body,
+    //     success: function(responseTxt,statusTxt,xhr){
+    //         if(statusTxt=="success") {
+    //             showpatientinfo(responseTxt);
+    //             removeloading();
+    //         }else
+    //         {
+    //             socket.send("POPCARD");
+    //             alert("Error: "+xhr.status+": "+xhr.statusText);
+    //         }
+    //     }
+    // });
 }
 
 //页面控制方法

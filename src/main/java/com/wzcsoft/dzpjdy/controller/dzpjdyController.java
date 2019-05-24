@@ -20,8 +20,4 @@ public class dzpjdyController {
         return ds.pageInit();
     }
 
-    @RequestMapping(value = "savepaperbillno")
-    public Object Savepaperbillno(@RequestParam(name = "pbillno",required = true) String pBillno){
-        return ds.savePbillNo(pBillno);
-    }
 }

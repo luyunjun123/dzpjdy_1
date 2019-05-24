@@ -225,6 +225,10 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
         paramMap.put("noise",uuid);
         paramMap.put("version","1.0");
 
+        String signOrigin = "appid=" + _appid +"&data=" + data + "&noise=" + uuid;
+        String signOrigin1 = signOrigin + "&key=" + _key + "&version=1.0";
+        paramMap.put("sign", MD5(signOrigin1).toUpperCase());
+
 //        String v = "{\n" +
 //                "\t\"status\": \"S_OK\",\n" +
 //                "\t\"message\": \"\",\n" +
@@ -295,6 +299,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
         }else{
             retMap.put("status","S_FALSE");
             retMap.put("message","未查询到待开票记录");
+            retMap.put("errmsg",result + ":" + realMessage);
         }
 
         return retMap;

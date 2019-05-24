@@ -17,13 +17,18 @@ $(function(){
 
     var timer=setInterval (showTime, 1000);
     var vdate= new Date();
-    var vmonth = vdate.getMonth() +1;
+    var vmonth =  ("0" + (vdate.getMonth() + 1)).slice(-2);
     var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-    var myddy=vdate.getDay();
+    var myddy=("0" + vdate.getDate()).slice(-2);
     var week=weekday[myddy];
+    var today = vdate.getFullYear() + "-" + (vmonth) + "-" + (myddy);
+    $("#chargetime").val(today);
+    search();
 
     $("#t_showdate").html(vdate.getFullYear() + '年' + vmonth + '月' + vdate.getDate() +'日');
     $("#t_timeandweek").html( fillZero(vdate.getHours(),2) + ':' + fillZero(vdate.getMinutes(),2) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+week);
+
+
 
     function showTime()
     {
@@ -329,8 +334,7 @@ function setPrintStatus() {
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
                 $("#prnBtn-" + prandom).attr('disabled',true);
-                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
-                savePaperBillno(paperBillno);
+                //setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
                 writePrintLog();
                 printremoveloading();
             }else
@@ -352,20 +356,6 @@ function setTicketInfo(ebillno,pbillno,pbillbatchcode){
         success: function(responseTxt,statusTxt,xhr){
             if(responseTxt.status=="S_FALSE") {
                 alert(responseTxt.message);
-            }
-        }
-    });
-}
-
-function savePaperBillno(paperBillno) {
-    $.ajax({ url: "./dzpjdy/savepaperbillno",
-        async: true,
-        data:{pbillno:pbillno},
-        type:"GET",
-        context: document.body,
-        success: function(responseTxt,statusTxt,xhr){
-            if(statusTxt!="success") {
-                alert("Error: "+xhr.status+": "+xhr.statusText);
             }
         }
     });
@@ -396,8 +386,8 @@ function writePrintLog(){
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
-                var json = JSON.parse(responseTxt);
-                alert(json.message);
+                //var json = JSON.parse(responseTxt);
+                //alert(responseTxt.message);
             }else
             {
                 alert("Error: "+xhr.status+": "+xhr.statusText);
