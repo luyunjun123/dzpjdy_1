@@ -48,6 +48,9 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
     @Value("${pdf.field.paycompany}")
     private String _pdf_field_paycompany;
 
+    @Value("${pdf.query.url}")
+    private String _pdf_query_url;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -128,7 +131,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 
         if(retMap.containsKey("data")){
             JSONObject dataJson = (JSONObject)(retMap.get("data"));
-            String pdffile = PdfUtil.writeFaPiaoPdf(dataJson,_pdf_template_fullname,_pdf_file_directory, billName, billBatchCode, billNo, payer, random, ivcDateTime,_pdf_field_paycompany);
+            String pdffile = PdfUtil.writeFaPiaoPdf(dataJson,_pdf_template_fullname,_pdf_file_directory, billName, billBatchCode, billNo, payer, random, ivcDateTime,_pdf_field_paycompany,_pdf_query_url);
             retMap.put("pdffile",pdffile);
         }
         return retMap;
