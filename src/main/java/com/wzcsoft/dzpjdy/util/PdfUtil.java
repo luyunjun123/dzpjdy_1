@@ -28,7 +28,7 @@ public class PdfUtil {
 //        PdfUtil.writeFaPiaoPdf(null,"E:\\wangtao\\pdf");
 //    }
 
-    public static String writeFaPiaoPdf(JSONObject jsonObj, String pdf_template, String pdf_dir,String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime, String payCompany) {
+    public static String writeFaPiaoPdf(JSONObject jsonObj, String pdf_template, String pdf_dir,String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime, String payCompany,String queryUrl) {
         String uuidname = UUID.randomUUID().toString();
         String pdfFileName = pdf_dir + File.separator + uuidname + ".pdf";
         SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd");
@@ -60,6 +60,7 @@ public class PdfUtil {
             form.setField("payer", jsonObj.get("payer").toString());
             form.setField("random", random);
             form.setField("ivcDateTime", ivcDateTime);
+
 
             form.setField("busNo", "业务流水号：" + jsonObj.get("busNo").toString());
 
@@ -135,6 +136,7 @@ public class PdfUtil {
 
 
             form.setField("payCompany", payCompany);
+            form.setField("queryUrl", queryUrl);
             form.setField("payee", jsonObj.get("payee").toString());
 
 
