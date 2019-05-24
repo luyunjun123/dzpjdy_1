@@ -227,6 +227,7 @@ function getbillinfo() {
 }
 
 function printBillPdf(json){
+    var base64 = new Base64();
     var pdffile = json.pdffile;
     var base64 = new Base64();
     var sendStr = "PRINTBILL#" +
@@ -239,7 +240,7 @@ function printBillPdf(json){
 function printBill(json,billName,billBatchCode,billNo,random,ivcDateTime,busDate,totalAmt) {
     //var json = JSON.parse(jsonStr);
     var pattern = /(\d{4})(\d{2})(\d{2})/;
-    var payCompany = "四川省人民医院";
+    var payCompany = "四川省肿瘤医院";
     var payer = json.data.payer;
     var busNo=json.data.busNo;
     var busType;

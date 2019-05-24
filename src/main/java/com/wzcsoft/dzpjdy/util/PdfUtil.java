@@ -41,7 +41,7 @@ public class PdfUtil {
             stamper = new PdfStamper(reader, out);
 
             //BaseFont bf = BaseFont.createFont("c:/windows/fonts/simsun.ttc,0", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            BaseFont bf = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.createFont("TSongStd-LightS", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             AcroFields form = stamper.getAcroFields();
             ArrayList<BaseFont> fontList = new ArrayList<BaseFont>();
             fontList.add(bf);
