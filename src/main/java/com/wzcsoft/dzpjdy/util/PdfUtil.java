@@ -51,7 +51,7 @@ public class PdfUtil {
 
             for (String key : form.getFields().keySet()) {
                 form.setFieldProperty(key, "textfont", bf, null);
-                form.setFieldProperty(key, "textsize", new Float(12), null);
+                form.setFieldProperty(key, "textsize", new Float(10), null);
             }
 
             form.setField("billName", billName);
