@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -29,6 +31,7 @@ public class PdfUtil {
     public static String writeFaPiaoPdf(JSONObject jsonObj, String pdf_template, String pdf_dir,String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime, String payCompany) {
         String uuidname = UUID.randomUUID().toString();
         String pdfFileName = pdf_dir + File.separator + uuidname + ".pdf";
+        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd");
 
         FileOutputStream out;// 输出流;
         PdfReader reader;
@@ -40,8 +43,8 @@ public class PdfUtil {
             reader = new PdfReader(templatePath);// 读取pdf模板
             stamper = new PdfStamper(reader, out);
 
-            //BaseFont bf = BaseFont.createFont("c:/windows/fonts/simsun.ttc,0", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            BaseFont bf = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.createFont("c:/windows/fonts/simsun.ttc,0", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            //BaseFont bf = BaseFont.createFont("STSongStd-Light", "UniGB-UCS2-H", BaseFont.NOT_EMBEDDED);
             AcroFields form = stamper.getAcroFields();
             ArrayList<BaseFont> fontList = new ArrayList<BaseFont>();
             fontList.add(bf);
@@ -85,8 +88,8 @@ public class PdfUtil {
             }
             form.setField("busType", "业务标识：" + tmp_busType);
 
-            form.setField("busDateTime", "业务发生时间：" + jsonObj.get("busDateTime").toString());
-
+            //form.setField("busDateTime", "业务发生时间：" + jsonObj.get("busDateTime").toString());
+            form.setField("busDateTime", "业务发生时间：" + dd.format(new Date()));
 
             form.setField("chargenameleft", "费别");
             form.setField("chargeamtleft", "金额");
