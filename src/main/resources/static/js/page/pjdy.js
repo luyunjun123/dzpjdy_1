@@ -6,7 +6,7 @@ var pageSize = 8;
 var pageNo = 0;
 var pageCount=0;
 var chargetime;
-var second = 180;
+var second = 120;
 
 var pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt,pBusFlag;
 var paperBillno;
@@ -89,7 +89,7 @@ function sMessage(msg){
         Ewin.alert({ message: "退卡操作出错，错误信息：" + result[1]}).on(function (e) {});
     }
     else if(result[0]=="CODE_PRINTBILL_SUCCESS"){
-        second = 180;
+        second = 120;
         setPrintStatus();
     }else if(result[0]=="CODE_PRINTBILL_FAILED"){
         Ewin.alert({ message: "打印出错，错误信息：" + result[1]}).on(function (e) {});
@@ -104,7 +104,7 @@ function popcard() {
 
 function search(){
 
-    second = 180;
+    second = 120;
     chargetime = $("#chargetime").val();
     if (chargetime==null||chargetime==""||chargetime=="undefined")
     {
