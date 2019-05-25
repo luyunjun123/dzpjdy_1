@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 
 //import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by 邢直 on 2019/1/9.
@@ -24,8 +28,48 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
     @Value("${hisinterf.operator}")
     private String _operator;
 
+    @Value("${hisinterf.code}")
+    private String _hisintcode;
+
+    @Value("${hisinterf.serverip}")
+    private String _serverip;
+
+    @Value("${hisinterf.port}")
+    private String _port;
+
+    @Value("${bossinterf.machinename}")
+    private String _machinename;
+
+    @Value("${self.ipaddress}")
+    private String _selfipaddress;
+
+
+
     @Override
     public Object getPatientInfo(String cardno){
+        if(_hisintcode.equals("1")){
+            return getPatientInfo_1(cardno);
+        }else if (_hisintcode.equals("2")){
+            return getPatientInfo_2(cardno);
+        }else {
+            Map<String,Object> retMap = new HashMap<>();
+            retMap.put("status", "S_FALSE");
+            retMap.put("message", "不支持的His代码！");
+            return retMap;
+        }
+    }
+
+    @Override
+    public Object setTicketinfo(String ebillno,String pbillno,String pbillbatchcode,String pFlag){
+        if(_hisintcode.equals("1")){
+            return setTicketinfo_1(ebillno, pbillno, pbillbatchcode, pFlag);
+        }else {
+            return null;
+        }
+    }
+
+
+    private Object getPatientInfo_1(String cardno){
         Map<String,Object> retMap = new HashMap<>();
         Map<String,Object> dataMap = new HashMap<>();
         Document doc = null;
@@ -101,8 +145,85 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
         return retMap;
     }
 
-    @Override
-    public Object setTicketinfo(String ebillno,String pbillno,String pbillbatchcode,String pFlag){
+    private Object getPatientInfo_2(String cardno){
+        Map<String,Object> retMap = new HashMap<>();
+        Map<String,Object> dataMap = new HashMap<>();
+        Document doc = null;
+        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Socket client = new Socket(_serverip, Integer.parseInt(_port));
+            OutputStream outToServer = client.getOutputStream();
+            DataOutputStream out = new DataOutputStream(outToServer);
+            out.writeUTF("<?xml version=\"1.0\" encoding=\"utf-16\"?><RequestMarkInfo><TransCode>001DQKP</TransCode><MarkType>1</MarkType><MarkNO>" + cardno + "</MarkNO><BankTransNO></BankTransNO><SelfMachine><SelfIP>" + _selfipaddress + "</SelfIP><SelfTransNo>" + _machinename + "</SelfTransNo></SelfMachine></RequestMarkInfo>");
+
+            InputStream inFromServer = client.getInputStream();
+            DataInputStream in = new DataInputStream(inFromServer);
+            // System.out.println("服务器响应： " + in.readUTF());
+            String responseXml = in.readUTF();
+            client.close();
+
+            //解析
+            try {
+                doc = DocumentHelper.parseText(responseXml);
+                Element rootElt = doc.getRootElement();
+
+                String resultCode = rootElt.elementTextTrim("Result");
+                String errorMsg = rootElt.elementTextTrim("Err");
+                String status = rootElt.elementTextTrim("State");
+
+
+                if (resultCode.equals("1") && status.equals("1")){
+                    Iterator items = rootElt.elementIterator("PatientInfo");
+                    Element patientInfo = (Element) items.next();
+
+                    String patientid = patientInfo.elementTextTrim("CardNO");
+                    String name = patientInfo.elementTextTrim("Name");
+                    String sexcode = patientInfo.elementTextTrim("Sex");
+                    String BirthDay = patientInfo.elementTextTrim("BirthDay");
+                    String socialno = patientInfo.elementTextTrim("IDNO");
+                    String sex;
+                    int age = 0;
+                    if (!BirthDay.equals("")){
+                        age = getAgeByBirth(dd.parse(BirthDay));
+                    }
+
+                    if(sexcode.equals("F")){
+                        sex = "男";
+                    }else{
+                        sex = "女";
+                    }
+                    dataMap.put("patientid",patientid);
+                    dataMap.put("name", name);
+                    dataMap.put("cardno", cardno);
+                    dataMap.put("sex", sex );
+                    dataMap.put("age", age);
+                    dataMap.put("socialno", socialno);
+
+                    retMap.put("status", "S_OK");
+                    retMap.put("message", "");
+                    retMap.put("data", dataMap);
+                }else{
+                    if (resultCode.equals("1") && !status.equals("1")){
+                        errorMsg = status.equals("0")?"就诊卡无效！":"就诊卡已注销";
+                    }
+                    retMap.put("status", "S_FALSE");
+                    retMap.put("message", errorMsg);
+                }
+
+            } catch (DocumentException e) {
+                e.printStackTrace();
+                retMap.put("status", "S_FALSE");
+                retMap.put("message", "HIS返回信息解析出错！");
+            }
+
+        }catch (Exception e){
+            retMap.put("status", "S_FALSE");
+            retMap.put("message", e.getMessage());
+        }
+        return retMap;
+    }
+
+    private Object setTicketinfo_1(String ebillno,String pbillno,String pbillbatchcode,String pFlag){
         Map<String,Object> retMap = new HashMap<>();
         Document doc = null;
 
@@ -142,9 +263,9 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
     }
 
 
-//    私有方法
+
     private String getResByAxis(String xmlString){
-        String endpoint = "http://10.89.1.47:8089/founderWebs/services/ICalculateServiceSCSZL";
+        String endpoint = "http://" + _serverip + ":" + _port + "/founderWebs/services/ICalculateServiceSCSZL";
         org.apache.axis.client.Service service = new Service();
 
 
@@ -159,5 +280,28 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
             e.printStackTrace();
         }
         return null;
+    }
+
+     private int getAgeByBirth(Date birthday) {
+        int age = 0;
+        try {
+            Calendar now = Calendar.getInstance();
+            now.setTime(new Date());// 当前时间
+
+            Calendar birth = Calendar.getInstance();
+            birth.setTime(birthday);
+
+            if (birth.after(now)) {//如果传入的时间，在当前时间的后面，返回0岁
+                age = 0;
+            } else {
+                age = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
+                if (now.get(Calendar.DAY_OF_YEAR) > birth.get(Calendar.DAY_OF_YEAR)) {
+                    age += 1;
+                }
+            }
+            return age;
+        } catch (Exception e) {//兼容性更强,异常后返回数据
+            return 0;
+        }
     }
 }

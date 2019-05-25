@@ -31,7 +31,7 @@ public class PdfUtil {
     public static String writeFaPiaoPdf(JSONObject jsonObj, String pdf_template, String pdf_dir,String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime, String payCompany,String queryUrl) {
         String uuidname = UUID.randomUUID().toString();
         String pdfFileName = pdf_dir + File.separator + uuidname + ".pdf";
-        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd hh24:mi:ss");
 
         FileOutputStream out;// 输出流;
         PdfReader reader;
@@ -90,7 +90,7 @@ public class PdfUtil {
             form.setField("busType", "业务标识：" + tmp_busType);
 
             //form.setField("busDateTime", "业务发生时间：" + jsonObj.get("busDateTime").toString());
-            form.setField("busDateTime", "业务发生时间：" + dd.format(new Date()));
+            form.setField("busDateTime", "打印时间：" + dd.format(new Date()));
 
             form.setField("chargenameleft", "费别");
             form.setField("chargeamtleft", "金额");
