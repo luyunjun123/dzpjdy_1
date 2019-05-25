@@ -20,7 +20,8 @@ $(function(){
     var vmonth =  ("0" + (vdate.getMonth() + 1)).slice(-2);
     var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
     var myddy=("0" + vdate.getDate()).slice(-2);
-    var week=weekday[myddy];
+    var day = vdate.getDay();
+    var week=weekday[day];
     var today = vdate.getFullYear() + "-" + (vmonth) + "-" + (myddy);
     $("#chargetime").val(today);
     search();

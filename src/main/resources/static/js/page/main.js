@@ -10,7 +10,8 @@ $(function(){
     var vmonth =  ("0" + (vdate.getMonth() + 1)).slice(-2);
     var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
     var myddy=("0" + vdate.getDate()).slice(-2);
-    var week=weekday[myddy];
+    var day = vdate.getDay();
+    var week=weekday[day];
 
     $("#t_showdate").html(vdate.getFullYear() + '年' + vmonth + '月' + vdate.getDate() +'日');
     $("#t_timeandweek").html( fillZero(vdate.getHours(),2) + ':' + fillZero(vdate.getMinutes(),2) + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+week);
