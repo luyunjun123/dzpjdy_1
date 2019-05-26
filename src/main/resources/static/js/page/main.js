@@ -96,30 +96,30 @@ function sMessage(msg){
 
 //接口-获取病人信息
 function getPatientInfo(cardno) {
-    //2019-04-28
-    var st = window.localStorage;
-    st.setItem("cardno",cardno);
-    window.location.replace("pjdy.html");
-    return;
+    // //2019-04-28
+    // var st = window.localStorage;
+    // st.setItem("cardno",cardno);
+    // window.location.replace("pjdy.html");
+    // return;
 
-    //
-    // loading();
-    // $.ajax({ url: "./hisinterf/getpainfobycard",
-    //     async: true,
-    //     data:{cardno:cardno},
-    //     type:"GET",
-    //     context: document.body,
-    //     success: function(responseTxt,statusTxt,xhr){
-    //         if(statusTxt=="success") {
-    //             showpatientinfo(responseTxt);
-    //             removeloading();
-    //         }else
-    //         {
-    //             socket.send("POPCARD");
-    //             alert("Error: "+xhr.status+": "+xhr.statusText);
-    //         }
-    //     }
-    // });
+
+    loading();
+    $.ajax({ url: "./hisinterf/getpainfobycard",
+        async: true,
+        data:{cardno:cardno},
+        type:"GET",
+        context: document.body,
+        success: function(responseTxt,statusTxt,xhr){
+            if(statusTxt=="success") {
+                showpatientinfo(responseTxt);
+                removeloading();
+            }else
+            {
+                socket.send("POPCARD");
+                alert("Error: "+xhr.status+": "+xhr.statusText);
+            }
+        }
+    });
 }
 
 //页面控制方法
