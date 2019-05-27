@@ -164,7 +164,7 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
 
             InputStream inFromServer = client.getInputStream();
             DataInputStream in = new DataInputStream(inFromServer);
-            // System.out.println("服务器响应： " + in.readUTF());
+            System.out.println("服务器响应： " + in.readUTF());
             String responseXml = in.readUTF();
             client.close();
 
