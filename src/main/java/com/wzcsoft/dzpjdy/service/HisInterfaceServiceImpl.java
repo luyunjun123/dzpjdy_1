@@ -37,8 +37,8 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
     @Value("${hisinterf.port}")
     private String _port;
 
-    @Value("${bossinterf.machinename}")
-    private String _machinename;
+    @Value("${self.transno}")
+    private String _selftransno;
 
     @Value("${self.ipaddress}")
     private String _selfipaddress;
@@ -154,7 +154,9 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
             Socket client = new Socket(_serverip, Integer.parseInt(_port));
             OutputStream outToServer = client.getOutputStream();
             DataOutputStream out = new DataOutputStream(outToServer);
-            out.writeUTF("<?xml version=\"1.0\" encoding=\"utf-16\"?><RequestMarkInfo><TransCode>001DQKP</TransCode><MarkType>1</MarkType><MarkNO>" + cardno + "</MarkNO><BankTransNO></BankTransNO><SelfMachine><SelfIP>" + _selfipaddress + "</SelfIP><SelfTransNo>" + _machinename + "</SelfTransNo></SelfMachine></RequestMarkInfo>");
+            String sendStr ="<?xml version=\"1.0\" encoding=\"utf-16\"?><RequestMarkInfo><TransCode>001DQKP</TransCode><MarkType>1</MarkType><MarkNO>" + cardno + "</MarkNO><BankTransNO></BankTransNO><SelfMachine><SelfIP>" + _selfipaddress + "</SelfIP><SelfTransNo>" + _selftransno + "</SelfTransNo></SelfMachine></RequestMarkInfo>";
+            // System.out.println("发送报文：" + sendStr);
+            out.writeUTF(sendStr);
 
             InputStream inFromServer = client.getInputStream();
             DataInputStream in = new DataInputStream(inFromServer);
