@@ -155,12 +155,16 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
             OutputStream outToServer = client.getOutputStream();
             DataOutputStream out = new DataOutputStream(outToServer);
             String sendStr ="<?xml version=\"1.0\" encoding=\"utf-16\"?><RequestMarkInfo><TransCode>001DQKP</TransCode><MarkType>1</MarkType><MarkNO>" + cardno + "</MarkNO><BankTransNO></BankTransNO><SelfMachine><SelfIP>" + _selfipaddress + "</SelfIP><SelfTransNo>" + _selftransno + "</SelfTransNo></SelfMachine></RequestMarkInfo>";
-            // System.out.println("发送报文：" + sendStr);
-            out.writeUTF(sendStr);
+            byte[] buff = sendStr.getBytes("GB2312");
+            int len = buff.length;
+            sendStr = String.format("%08d", len) + sendStr;
+            System.out.println("发送报文：" + sendStr);
+            out.write(sendStr.getBytes("GB2312"));
+            //out.writeUTF(sendStr);
 
             InputStream inFromServer = client.getInputStream();
             DataInputStream in = new DataInputStream(inFromServer);
-            // System.out.println("服务器响应： " + in.readUTF());
+            System.out.println("服务器响应： " + in.readUTF());
             String responseXml = in.readUTF();
             client.close();
 
