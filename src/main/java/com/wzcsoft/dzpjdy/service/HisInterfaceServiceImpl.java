@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 //import org.springframework.stereotype.Service;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -163,12 +160,21 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
             //out.writeUTF(sendStr);
 
             InputStream inFromServer = client.getInputStream();
-            DataInputStream in = new DataInputStream(inFromServer);
-            System.out.println("服务器响应： " + in.readUTF());
-            String responseXml = in.readUTF();
-            client.close();
-
+//            DataInputStream in = new DataInputStream(inFromServer);
+//
+//            String responseXml = in.readUTF();
+//            client.close();
+            InputStreamReader inputStreamReader = new InputStreamReader(inFromServer, "GB2312");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);//加入缓冲区
+            String temp = "";
+            String sbu = "";
+            int index;
+            while ((temp = bufferedReader.readLine()) != null) {
+                sbu+=temp;
+            }
             //解析
+            String  responseXml = sbu;
+            System.out.println("服务器响应： " + responseXml);
             try {
                 doc = DocumentHelper.parseText(responseXml);
                 Element rootElt = doc.getRootElement();
@@ -273,7 +279,6 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
     private String getResByAxis(String xmlString){
         String endpoint = "http://" + _serverip + ":" + _port + "/founderWebs/services/ICalculateServiceSCSZL";
         org.apache.axis.client.Service service = new Service();
-
 
         try {
             org.apache.axis.client.Call call = (Call)service.createCall();
