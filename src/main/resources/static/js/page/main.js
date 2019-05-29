@@ -111,7 +111,14 @@ function getPatientInfo(cardno) {
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
-                showpatientinfo(responseTxt);
+                try {
+                    showpatientinfo(responseTxt);
+                } catch (e) {
+                    Ewin.alert({ message: e.message}).on(function (e) {});
+                    socket.send("POPCARD");
+                    removeloading();
+                }
+
                 removeloading();
             }else
             {
