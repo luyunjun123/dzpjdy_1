@@ -381,8 +381,6 @@ function writePrintLog(){
     var cardno = window.localStorage.getItem("cardno");
     var patientname = window.localStorage.getItem("patientname");
     var socialno = window.localStorage.getItem("socialno");
-    patientname = cardno
-    socialno = cardno
     // var cardno = "00121021212";
     // var patientname = "王招财";
     // var socialno = "622621197904110012";
