@@ -113,7 +113,6 @@ function search(){
         return;
     }
     var patientid =window.localStorage.getItem("patientid");
-    patientid = 0;
     var cardno =window.localStorage.getItem("cardno");
     // var patientid ="999999999";
     // var cardno="0123456789";
@@ -221,6 +220,22 @@ function getbillinfo() {
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
+                var json = responseTxt;
+                if ("01"==json.data.busType){
+                    pBusFlag = 3;
+                }else if("02"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("03"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("04"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("05"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("06"==json.data.busType){
+                    pBusFlag = 2
+                }else{
+                    pBusFlag = 1;
+                }
                 // printBill(responseTxt,pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt);
                 printBillPdf(responseTxt);
             }else
@@ -335,7 +350,7 @@ function setPrintStatus() {
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
                 $("#prnBtn-" + prandom).attr('disabled',true);
-                //setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
+                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
                 writePrintLog();
                 printremoveloading();
             }else
@@ -349,6 +364,7 @@ function setPrintStatus() {
 }
 
 function setTicketInfo(ebillno,pbillno,pbillbatchcode){
+    // alert("ebillno=" + ebillno + ";pbillno=" + pbillno + ";pbillbatchcode=" + pbillbatchcode + ";pflag=" + pBusFlag);
     $.ajax({ url: "./hisinterf/setticketinfo",
         async: true,
         data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
@@ -356,7 +372,7 @@ function setTicketInfo(ebillno,pbillno,pbillbatchcode){
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(responseTxt.status=="S_FALSE") {
-                alert(responseTxt.message);
+                // alert(responseTxt.message);
             }
         }
     });
@@ -366,8 +382,6 @@ function writePrintLog(){
     var cardno = window.localStorage.getItem("cardno");
     var patientname = window.localStorage.getItem("patientname");
     var socialno = window.localStorage.getItem("socialno");
-    patientname = cardno
-    socialno = cardno
     // var cardno = "00121021212";
     // var patientname = "王招财";
     // var socialno = "622621197904110012";
@@ -431,7 +445,6 @@ function nextpage(){
         pageNo++;
         var patientid =window.localStorage.getItem("patientid");
         var cardno =window.localStorage.getItem("cardno");
-        patientid = 0;
         loading();
         $.ajax({ url: "./dzpjinterf/getbilllist",
             async: true,

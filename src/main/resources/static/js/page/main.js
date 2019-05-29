@@ -65,7 +65,7 @@ function Connect(){
 
 function sOpen(){
     //alert('connect success!');
-    socket.send("READCARD");
+    socket.send("READCARD#86400");
 }
 function sError(e){
     alert("error " + e);
@@ -90,7 +90,7 @@ function sMessage(msg){
     }else if(result[0]=="CODE_POPCARD_SUCCESS"){
         document.getElementById("ddsound1").play();
         loading();
-        setTimeout(function(){removeloading();socket.send("READCARD");},6000);
+        setTimeout(function(){removeloading();socket.send("READCARD#86400");},6000);
     }
 }
 
@@ -111,7 +111,14 @@ function getPatientInfo(cardno) {
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
-                showpatientinfo(responseTxt);
+                try {
+                    showpatientinfo(responseTxt);
+                } catch (e) {
+                    Ewin.alert({ message: e.message}).on(function (e) {});
+                    socket.send("POPCARD");
+                    removeloading();
+                }
+
                 removeloading();
             }else
             {
