@@ -31,7 +31,7 @@ public class PdfUtil {
     public static String writeFaPiaoPdf(JSONObject jsonObj, String pdf_template, String pdf_dir,String billName,String billBatchCode,String billNo,String payer,String random,String ivcDateTime, String payCompany,String queryUrl) {
         String uuidname = UUID.randomUUID().toString();
         String pdfFileName = pdf_dir + File.separator + uuidname + ".pdf";
-        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd hh24:mi:ss");
+        SimpleDateFormat dd=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         FileOutputStream out;// 输出流;
         PdfReader reader;
