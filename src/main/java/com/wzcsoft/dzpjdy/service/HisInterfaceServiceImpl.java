@@ -265,7 +265,7 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
                     retMap.put("message", errorMsg);
                 }
 
-            } catch (DocumentException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 retMap.put("status", "S_FALSE");
                 retMap.put("message", "HIS返回信息解析出错！");

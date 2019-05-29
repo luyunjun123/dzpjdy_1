@@ -221,6 +221,22 @@ function getbillinfo() {
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
+                var json = responseTxt;
+                if ("01"==json.data.busType){
+                    pBusFlag = 3;
+                }else if("02"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("03"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("04"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("05"==json.data.busType){
+                    pBusFlag = 1;
+                }else if("06"==json.data.busType){
+                    pBusFlag = 2
+                }else{
+                    pBusFlag = 1;
+                }
                 // printBill(responseTxt,pbillName,pbillBatchCode,pbillNo,prandom,pivcDateTime,pbusDate,ptotalAmt);
                 printBillPdf(responseTxt);
             }else
@@ -348,6 +364,7 @@ function setPrintStatus() {
 }
 
 function setTicketInfo(ebillno,pbillno,pbillbatchcode){
+    // alert("ebillno=" + ebillno + ";pbillno=" + pbillno + ";pbillbatchcode=" + pbillbatchcode + ";pflag=" + pBusFlag);
     $.ajax({ url: "./hisinterf/setticketinfo",
         async: true,
         data:{ebillno:ebillno,pbillno:pbillno,pbillbatchcode:pbillbatchcode,pflag:pBusFlag},
@@ -355,7 +372,7 @@ function setTicketInfo(ebillno,pbillno,pbillbatchcode){
         context: document.body,
         success: function(responseTxt,statusTxt,xhr){
             if(responseTxt.status=="S_FALSE") {
-                alert(responseTxt.message);
+                // alert(responseTxt.message);
             }
         }
     });
