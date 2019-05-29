@@ -66,7 +66,7 @@ function Connect(){
 
 function sOpen(){
     //alert('connect success!');
-    socket.send("READCARD#86400");
+    socket.send("READCARD");
 }
 function sError(e){
     alert("error " + e);
@@ -90,7 +90,7 @@ function sMessage(msg){
     }else if(result[0]=="CODE_POPCARD_SUCCESS"){
         document.getElementById("ddsound1").play();
         loading();
-        setTimeout(function(){removeloading();socket.send("READCARD#86400");},6000);
+        setTimeout(function(){removeloading();socket.send("READCARD");},6000);
     }
 }
 
