@@ -86,7 +86,7 @@ public class DzpjInterfaceServiceImpl implements DzpjInterfaceService {
 //        dataMap.put("busType","02");
         dataMap.put("cardType","3101");
         dataMap.put("cardNo",cardNo);
-        //dataMap.put("patientId",patientId);
+        dataMap.put("patientId",patientId);
         dataMap.put("pageNo",pageNo);
         dataMap.put("pageSize",pageSize);
         String data = mapToBase64(dataMap);
