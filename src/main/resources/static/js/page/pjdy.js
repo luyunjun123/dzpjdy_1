@@ -334,7 +334,7 @@ function setPrintStatus() {
         success: function(responseTxt,statusTxt,xhr){
             if(statusTxt=="success") {
                 $("#prnBtn-" + prandom).attr('disabled',true);
-                //setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
+                setTicketInfo(pbillNo,paperBillno,pbillBatchCode);
                 writePrintLog();
                 printremoveloading();
             }else
