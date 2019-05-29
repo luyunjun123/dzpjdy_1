@@ -113,7 +113,7 @@ function search(){
         return;
     }
     var patientid =window.localStorage.getItem("patientid");
-    patientid = 0;
+    // patientid = 0;
     var cardno =window.localStorage.getItem("cardno");
     // var patientid ="999999999";
     // var cardno="0123456789";
@@ -447,7 +447,7 @@ function nextpage(){
         pageNo++;
         var patientid =window.localStorage.getItem("patientid");
         var cardno =window.localStorage.getItem("cardno");
-        patientid = 0;
+        //patientid = 0;
         loading();
         $.ajax({ url: "./dzpjinterf/getbilllist",
             async: true,
