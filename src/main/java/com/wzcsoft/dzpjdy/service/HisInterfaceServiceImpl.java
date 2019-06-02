@@ -155,26 +155,23 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
             byte[] buff = sendStr.getBytes("GB2312");
             int len = buff.length;
             sendStr = String.format("%08d", len) + sendStr;
-            System.out.println("发送报文：" + sendStr);
+            //System.out.println("发送报文：" + sendStr);
             out.write(sendStr.getBytes("GB2312"));
-            //out.writeUTF(sendStr);
-
             InputStream inFromServer = client.getInputStream();
-//            DataInputStream in = new DataInputStream(inFromServer);
-//
-//            String responseXml = in.readUTF();
-//            client.close();
+
             InputStreamReader inputStreamReader = new InputStreamReader(inFromServer, "GB2312");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);//加入缓冲区
-            String temp = "";
-            String sbu = "";
-            int index;
-            while ((temp = bufferedReader.readLine()) != null) {
-                sbu+=temp;
-            }
+
+            char[] lenbuff = new char[8];
+            bufferedReader.read(lenbuff,0,8);
+            String lenStr = new String(lenbuff);
+            int resplen = Integer.parseInt(lenStr);
+            lenbuff = new char[resplen];
+            bufferedReader.read(lenbuff,0,resplen);
+            String responseXml = new String(lenbuff).trim();
+
             //解析
-            String  responseXml = sbu;
-            System.out.println("服务器响应： " + responseXml);
+            //System.out.println("服务器响应： " + responseXml);
             try {
                 doc = DocumentHelper.parseText(responseXml);
                 Element rootElt = doc.getRootElement();
