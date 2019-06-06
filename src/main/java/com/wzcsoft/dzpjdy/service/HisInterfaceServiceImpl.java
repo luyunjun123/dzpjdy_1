@@ -197,9 +197,9 @@ public class HisInterfaceServiceImpl implements HisInterfaceService {
                     }
 
                     if(sexcode.equals("F")){
-                        sex = "男";
-                    }else{
                         sex = "女";
+                    }else{
+                        sex = "男";
                     }
                     dataMap.put("patientid",patientid);
                     dataMap.put("name", name);

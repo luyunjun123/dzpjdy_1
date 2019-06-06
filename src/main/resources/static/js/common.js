@@ -70,7 +70,7 @@ function printloading() {
         originWidth:4,
         originHeight:4,
         smallLoading:false,
-        titleColor:'#388E7A',
+        titleColor:'#71EA71',
         loadingBg:'#312923',
         loadingMaskBg:'rgba(22,22,22,0.2)'
     });
