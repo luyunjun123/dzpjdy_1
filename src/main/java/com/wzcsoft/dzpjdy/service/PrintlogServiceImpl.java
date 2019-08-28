@@ -20,6 +20,10 @@ public class PrintlogServiceImpl implements PrintlogService {
 
     @Override
     public Object insertLog(String cardno,String patientname,String socialno,String billno,double billamount,String remark){
+        //二维码没有身心证信息无法写入
+       if(socialno==null){
+           socialno="  ";
+       }
         Map<String,Object> ret = new HashMap<String,Object>();
         Printlog rec = new Printlog();
         rec.setCardno(cardno);

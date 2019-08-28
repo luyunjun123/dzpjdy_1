@@ -118,9 +118,9 @@ public class PdfUtil {
                 }
                 form.setField("unit"+i, tmp_unit.toString());
 
-                form.setField("price"+i, listDetailArr.getJSONObject(i).get("price").toString());
-                form.setField("count"+i, listDetailArr.getJSONObject(i).get("count").toString());
-                form.setField("amt"+i, listDetailArr.getJSONObject(i).get("amt").toString());
+//                form.setField("price"+i, listDetailArr.getJSONObject(i).get("price").toString());
+//                form.setField("count"+i, listDetailArr.getJSONObject(i).get("count").toString());
+//                form.setField("amt"+i, listDetailArr.getJSONObject(i).get("amt").toString());
             }
 
 

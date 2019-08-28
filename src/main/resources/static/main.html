@@ -28,13 +28,18 @@
 				display: table-cell;
 			}
 			.row-content{
+
+				display: flex;
+			}
+			.row-content_1{
+				color: red;
 				display: flex;
 			}
 			.div-style1{
 				width: 220px;
 				height: 220px;
-				margin-top: 65px;
-				margin-left: 530px;
+				margin-top: 35px;
+				margin-left: 230px;
 			}
 			.btn-icon-1{
 				background-size: 100%;
@@ -55,7 +60,7 @@
 			}
 			.tip-modal{
 				width:683px;
-				height:54px;
+				height:80px;
 				font-size:36px;
 				font-family:MicrosoftYaHei;
 				font-weight:bold;
@@ -156,6 +161,22 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="showEwmImg" tabindex="-9" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="margin-left: 240px; margin-top: 200px;">
+			<div class="modal-content" style="width: 800px; height: 600px; background-image: url(image/bg-neibu.png);">
+				<div class="mymodal-body">
+					<div class = "tip-modal">请将二维码放在扫描器前面</div>
+					<div class = "tip-img"><image src="image/sysewm.png" style="width: 800px;height: 500px;"></image></div>
+					<div class = "tip_btn">
+						<div class = "tip_text" onclick="ewmlogintipclose()">关闭</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!--病人信息模态框-->
 	<div class="modal fade" id="patientInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog" style="margin-left: 240px; margin-top: 200px">
@@ -197,7 +218,10 @@
 			</div>
 		</div>
 	</div>
+	<audio id='dyzqsh' src='./sound/dyzqsh.mp3'></audio>
+	<audio id='EWMddsound' src='./sound/EWMdy.mp3'></audio>
 	<audio id='ddsound' src='./sound/insertcard.mp3'></audio>
+	<audio id='ddsoundewm' src='./sound/ewm.mp3'></audio>
 	<audio id='ddsound1' src='./sound/popcard.mp3'></audio>
 	<body>
 		<div class = "app-header">
@@ -219,21 +243,35 @@
 				<div class = "row-content">
 					<div class ="div-style1 div-color-yellow1"  onclick ="f_nav(1)">
 						<div class="btn-icon-1" style="background-image: url('./icon/ticketprint.png');"></div>
-						<div class="text-content">票据打印</div>
+						<div class="text-content">就诊卡识别</div>
+					</div>
+					<div class ="div-style1 div-color-yellow1"  onclick ="f_navewm(1)">
+						<div class="btn-icon-1" style="background-image: url('./icon/ewm.png');"></div>
+						<div class="text-content">二维码识别</div>
 					</div>
 				</div>
+
 				<div class = "row-content">
-					<div class = "tip-item">操作流程：</div>
+					<div class = "tip-item">就诊卡操作流程：</div>
 				</div>
 				<div class = "row-content">
 					<div class = "tip-content">点击“票据打印”->插入就诊卡->确认病人信息->选择日期->确认票据信息->打印纸质票据</div>
 				</div>
 				<div class = "row-content">
-					<div class = "tip-item">温馨提示：</div>
+					<div class = "tip-item">二维码卡操作流程：</div>
 				</div>
-				<div class = "row-content">
-					<div class = "tip-content">(1)、请按照就诊卡提示方向正确插入读卡器。<br>(2)、使用完毕后请取走您的物品。<br>(3)、如有疑问或者操作问题请咨询导医人员。</div>
+				<div class = ".row-content">
+					<div class = "tip-content">点击“二维码识别”->扫描二维码->选择日期->确认票据信息->打印纸质票据</div>
 				</div>
+				<div class = "row-content_1">
+					<div class = "tip-content_1">如遇异常问题，请拨打：028-87393928</div>
+				</div>
+				<!--<div class = "row-content">-->
+					<!--<div class = "tip-item">温馨提示：</div>-->
+				<!--</div>-->
+				<!--<div class = "row-content">-->
+					<!--<div class = "tip-content">(1)、请按照就诊卡提示方向正确插入读卡器。<br>(2)、使用完毕后请取走您的物品。<br>(3)、如有疑问或者操作问题请咨询导医人员。</div>-->
+				<!--</div>-->
 			</div>
 		</div>
 
@@ -243,6 +281,10 @@
 				<div class = "time datetime" id = "t_timeandweek"></div>
 			</div>
 			<div class = "return_tip" id ="t_countdown">
+				<span >如遇读卡失败，请点击这里返回 -></span>
+			</div>
+			<div class = "return_btn">
+				<div class = "return_text" onclick="popcard()">退卡</div>
 			</div>
 		</div>
 	</body>

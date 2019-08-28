@@ -15,12 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class hisInterfController {
     @Autowired
     HisInterfaceService hiservice;
-
+    //根据卡号像his查询数据
     @RequestMapping(value = "getpainfobycard")
     public Object Getpainfobycard(@RequestParam(name = "cardno",required = true) String cardno){
         return hiservice.getPatientInfo(cardno);
     }
-
+    //his返回打印成功票据 纸质电子票据号 billno:pbillNo, 票据扫码号码 pbillno:paperBillno setpainfobycard
+    @RequestMapping(value = "setpainfobycard")
+    public Object setpainfobycard( @RequestParam(name = "patientid",required = true) String patientid
+            ,@RequestParam(name = "billno",required = true) String billno
+    ){
+        System.out.println("进入his回传数据方法");
+        return hiservice.setpainfobycard(patientid,billno);
+    }
+    //肿瘤医院回传信息
     @RequestMapping(value = "setticketinfo")
     public Object Setticketinfo(@RequestParam(name = "ebillno",required = true) String ebillno,
                                 @RequestParam(name = "pbillno",required = true) String pbillno,

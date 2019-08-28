@@ -79,6 +79,17 @@ body{
 	margin-top: 0px;
 	margin-left: 230px;
 }
+.tip-content_1{
+	width:900px;
+	height:54px;
+	font-size:20px;
+	font-family:Adobe Heiti Std R;
+	font-weight:bold;
+	color: red;
+	line-height:25px;
+	margin-top: 0px;
+	margin-left: 230px;
+}
 .app-footer{
 	width:100%;
 	height:100px;
