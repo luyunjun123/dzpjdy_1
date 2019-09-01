@@ -393,6 +393,8 @@ public class ThreeHospitalsServiceImpl implements ThreeHospitalsService{
 //        }else if(url.equals("etk_turnPaper")){
 //            response2 = template2.postForEntity(url7, request2, String.class);
 //        }
+
+
         //todo 医院测试接口
         ResponseEntity<String> response2 = template2.postForEntity(url3, request2, String.class);
         String retString = response2.getBody();
